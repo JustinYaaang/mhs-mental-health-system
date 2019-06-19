@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "mhs-backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinYaaang/mhs-mental-health-system.git"
+  },
+  "keywords": [
+    "mhs"
+  ],
+  "author": "Bubu & Chen & Chong & Nick & Yiming",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JustinYaaang/mhs-mental-health-system/issues"
+  },
+  "homepage": "https://github.com/JustinYaaang/mhs-mental-health-system#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
