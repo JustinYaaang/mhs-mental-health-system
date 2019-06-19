@@ -1,0 +1,22 @@
+{
+  "name": "mhs-mental-health-system-server",
+  "version": "1.0.0",
+  "description": "This is git repository for Mental Health System Server from UCL students.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinYaaang/mhs-mental-health-system.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustinYaaang/mhs-mental-health-system/issues"
+  },
+  "homepage": "https://github.com/JustinYaaang/mhs-mental-health-system#readme"
+}
