@@ -3,17 +3,14 @@ var mongoose = require('../config/config');
 var Schema = mongoose.Schema;
 
 var QuestionnaireSchema = new Schema({
-	_id: {
-		type: 'ObjectId',
-    required: true
-	},
 	question_id: {
 		type: Schema.Types.ObjectId,
     ref: 'QuestionModel',
     required: true
 	},
 	is_root: {
-		type: 'Boolean'
+		type: 'Boolean',
+		required: true
 	},
 	input: {
 		node: [{

@@ -1,13 +1,12 @@
 var QuestionnaireModel = require('../../models/questionnaire')
 
 // Handle index actions
-// get: api/questions
+// get: api/questionnaires
 exports.index = function(req, res) {
   QuestionnaireModel.find({ is_root: 'true' }).exec(function(err, models) {
     if (err)
-      res.json(err);
-    res.json({
-      status: "success",
+      res.status(404).send(err);
+    res.status(200).send({
       message: "Questionnaire retrieved successfully",
       data: models
     });
@@ -15,28 +14,26 @@ exports.index = function(req, res) {
 };
 
 // Handle create contact actions
-// post: api/questions
+// post: api/questionnaires
 exports.new = function(req, res) {
-  var models = new QuestionnaireModel();
-  models.question_id = req.body.question_id;
-  // save the contact and check for errors
+  var models = new QuestionnaireModel(req.body);
   models.save(function(err) {
     if (err)
-      res.json(err);
-    res.json({
-      message: 'New Questionnaire created!',
+      res.status(404).send(err);
+    res.status(201).send({
+      message: 'Questionnaire created!',
       data: models
     });
   });
 };
 
 // Handle view contact info
-// get: api/questions/:id
+// get: api/questionnaires/:id
 exports.view = function(req, res) {
-  QuestionnaireModel.find({ _id: req.params.id}).populate('question_id').exec(function(err, models) {
+  QuestionnaireModel.findById(req.params.id).populate('question_id').exec(function(err, models) {
     if (err)
-      res.send(err);
-    res.json({
+      res.status(404).send(err);
+    res.status(200).send({
       message: 'Questionnaire details loading..',
       data: models
     });
@@ -44,34 +41,25 @@ exports.view = function(req, res) {
 };
 
 // Handle update contact info
-// put: api/questions/:id
+// put: api/questionnaires/:id
 exports.update = function(req, res) {
-  QuestionnaireModel.findById(req.params.id, function(err, models) {
+  QuestionnaireModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
     if (err)
-      res.send(err);
-    models.question_id = req.body.question_id;
-    // save the contact and check for errors
-    models.save(function(err) {
-      if (err)
-        res.json(err);
-      res.json({
-        message: 'Questionnaire Info updated',
-        data: models
-      });
+      res.status(404).send(err);
+    res.status(200).send({
+      message: 'Questionnaire Info updated',
+      data: models
     });
   });
 };
 
 // Handle delete question
-// delete: api/questions/:id
+// delete: api/questionnaires/:id
 exports.delete = function(req, res) {
-  QuestionnaireModel.remove({
-    _id: req.params.id
-  }, function(err, questionnaire) {
+  QuestionnaireModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
     if (err)
-      res.send(err);
-    res.json({
-      status: "success",
+      res.status(404).send(err);
+    res.status(200).send({
       message: 'Questionnaire deleted'
     });
   });

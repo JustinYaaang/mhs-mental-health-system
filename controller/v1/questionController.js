@@ -5,9 +5,8 @@ var QuestionModel = require('../../models/question')
 exports.index = function(req, res) {
   QuestionModel.find().exec(function(err, models) {
     if (err)
-      res.json(err);
-    res.json({
-      status: "success",
+      res.status(404).send(err);
+    res.status(200).send({
       message: "Question retrieved successfully",
       data: models
     });
@@ -17,15 +16,12 @@ exports.index = function(req, res) {
 // Handle create contact actions
 // post: api/questions
 exports.new = function(req, res) {
-  var models = new QuestionModel();
-  models.text = req.body.text;
-  models.answers = req.body.answers;
-  // save the contact and check for errors
+  var models = new QuestionModel(req.body);
   models.save(function(err) {
     if (err)
-      res.json(err);
-    res.json({
-      message: 'New question created!',
+      res.status(404).send(err);
+    res.status(201).send({
+      message: 'Question created!',
       data: models
     });
   });
@@ -34,10 +30,10 @@ exports.new = function(req, res) {
 // Handle view contact info
 // get: api/questions/:id
 exports.view = function(req, res) {
-  QuestionModel.findById(req.params.id, function(err, models) {
+  QuestionModel.findById(req.params.id).exec(function(err, models) {
     if (err)
-      res.send(err);
-    res.json({
+      res.status(404).send(err);
+    res.status(200).send({
       message: 'Question details loading..',
       data: models
     });
@@ -47,19 +43,12 @@ exports.view = function(req, res) {
 // Handle update contact info
 // put: api/questions/:id
 exports.update = function(req, res) {
-  QuestionModel.findById(req.params.id, function(err, models) {
+  QuestionModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
     if (err)
-      res.send(err);
-    models.text = req.body.text;
-    models.answers = req.body.answers;
-    // save the contact and check for errors
-    models.save(function(err) {
-      if (err)
-        res.json(err);
-      res.json({
-        message: 'Question Info updated',
-        data: models
-      });
+      res.status(404).send(err);
+    res.status(200).send({
+      message: 'Question Info updated',
+      data: models
     });
   });
 };
@@ -67,13 +56,10 @@ exports.update = function(req, res) {
 // Handle delete question
 // delete: api/questions/:id
 exports.delete = function(req, res) {
-  QuestionModel.remove({
-    _id: req.params.id
-  }, function(err, models) {
+  QuestionModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
     if (err)
-      res.send(err);
-    res.json({
-      status: "success",
+      res.status(404).send(err);
+    res.status(200).send({
       message: 'Question deleted'
     });
   });
