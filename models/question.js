@@ -3,10 +3,6 @@ var mongoose = require('../config/config');
 var Schema = mongoose.Schema;
 
 var QuestionSchema = new Schema({
-	_id: {
-		type: 'ObjectId',
-    required: true
-	},
 	title: {
 		type: 'String',
     required: true
