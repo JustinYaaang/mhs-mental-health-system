@@ -2,6 +2,6 @@ var router = require('express').Router();
 
 router.use('/questions', require('./questions'));
 router.use('/questionnaires', require('./questionnaires'));
-router.use('/useranswers', require('./useranswers'));
+router.use('/patientanswers', require('./patientanswers'));
 
 module.exports = router;

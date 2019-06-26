@@ -2,7 +2,7 @@ var mongoose = require('../config/config');
 
 var Schema = mongoose.Schema;
 
-var UserAnswersSchema = new Schema({
+var PatientAnswerSchema = new Schema({
   questionnaire_id: {
     type: Schema.Types.ObjectId,
     ref: 'QuestionnaireModel',
@@ -23,5 +23,5 @@ var UserAnswersSchema = new Schema({
   }
 });
 
-var UserAnswerModel = mongoose.model('UserAnswerModel', UserAnswersSchema, 'useranswers');
-module.exports = UserAnswerModel;
+var PatientAnswerModel = mongoose.model('PatientAnswerModel', PatientAnswerSchema, 'patientanswers');
+module.exports = PatientAnswerModel;
