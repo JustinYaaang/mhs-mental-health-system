@@ -34,5 +34,5 @@ var QuestionNodeSchema = new Schema({
 	}
 });
 
-var QuestionNodeeModel = mongoose.model('QuestionNodeeModel', QuestionNodeSchema, 'questionnode' );
+var QuestionNodeeModel = mongoose.model('QuestionNodeeModel', QuestionNodeSchema, 'questionnodes' );
 module.exports = QuestionNodeeModel;

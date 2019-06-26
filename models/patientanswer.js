@@ -8,8 +8,13 @@ var PatientAnswerSchema = new Schema({
     ref: 'QuestionnaireModel',
     required: true
   },
-  answer: {
-    type: {
+  answers: {
+    type: [{
+      questionnode_id:{
+        type: Schema.Types.ObjectId,
+        ref: 'QuestionNodeModel',
+        required: true
+      },
       title: {
         type: 'String',
         required: true
@@ -18,7 +23,7 @@ var PatientAnswerSchema = new Schema({
         type: 'Number',
         required: true
       }
-    },
+    }],
     required: true
   }
 });
