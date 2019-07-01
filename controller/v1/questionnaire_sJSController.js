@@ -57,8 +57,9 @@ exports.index = function(req, res) {
   // Handle update status 
   // put: api/questionnaire_sJS/:id/:status
   exports.update = function(req, res) {
-    Questionnaire_sJSModel.findById(id, function (err, doc) {
-      if (err)  res.status(404).send(err);
+    console.log(req.params);
+    Questionnaire_sJSModel.findById(req.params.id, function (err, doc) {
+      if (err)  res.status(404).send(err); //exit here
       doc.status = req.params.status;
       doc.save(function(err, models) {
         if (err)
