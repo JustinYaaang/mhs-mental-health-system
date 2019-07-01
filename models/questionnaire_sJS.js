@@ -4,23 +4,23 @@ var Schema = mongoose.Schema
 
 
 var Questionnaire_sJS = new Schema({
-    questionnaire_sJS_id: {
-		type: Schema.Types.ObjectId,
-    ref: 'Questionnaire_sJSModel',
-	},
-    title: {
+    questionnaire_sJS_id: { //the UID
+        type: Schema.Types.ObjectId,
+        ref: 'Questionnaire_sJSModel',
+    },
+    title: { //questionnaire's title
         type: 'String',
         required: true
     },
-    description: {
+    description: { //questionnaire's description
         type: 'String',
         required: true
     },
-    status: {
+    status: { //the status, can be DRAFT, PUBLISHED etc.
         type: 'String',
         required: true
     },
-    body: {
+    body: { //the JSON representation of the questionnaire that SurveyJS produces
         type: 'String',
         required: true
     },
