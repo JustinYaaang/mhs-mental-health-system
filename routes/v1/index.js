@@ -2,6 +2,9 @@ var router = require('express').Router();
 
 router.use('/questions', require('./questions'));
 router.use('/questionnaires', require('./questionnaires'));
-router.use('/useranswers', require('./useranswers'));
+router.use('/patientanswers', require('./patientanswers'));
+router.use('/patient', require('./patient'));
+router.use('/questionnaire_sJS', require('./questionnaires_sJS'));
+
 
 module.exports = router;

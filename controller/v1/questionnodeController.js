@@ -1,66 +1,66 @@
-var UserAnswerModel = require('../../models/useranswer')
+var QuestionNodeModel = require('../../models/questionnode')
 
 // Handle index actions
-// get: api/useranswers
+// get: api/QuestionNodes
 exports.index = function(req, res) {
-  UserAnswerModel.find().exec(function(err, models) {
+  QuestionNodeModel.find({ is_root: 'true' }).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: "UserAnswer retrieved successfully",
+      message: "QuestionNode retrieved successfully",
       data: models
     });
   });
 };
 
 // Handle create contact actions
-// post: api/useranswers
+// post: api/QuestionNodes
 exports.new = function(req, res) {
-  var models = new UserAnswerModel(req.body);
+  var models = new QuestionNodeModel(req.body);
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
     res.status(201).send({
-      message: 'UserAnswer created!',
+      message: 'QuestionNode created!',
       data: models
     });
   });
 };
 
 // Handle view contact info
-// get: api/useranswers/:id
+// get: api/QuestionNodes/:id
 exports.view = function(req, res) {
-  UserAnswerModel.findById(req.params.id).exec(function(err, models) {
+  QuestionNodeModel.findById(req.params.id).populate('question_id').exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'UserAnswer details loading..',
+      message: 'QuestionNode details loading..',
       data: models
     });
   });
 };
 
 // Handle update contact info
-// put: api/useranswers/:id
+// put: api/QuestionNodes/:id
 exports.update = function(req, res) {
-  UserAnswerModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
+  QuestionNodeModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'UserAnswer Info updated',
+      message: 'QuestionNode Info updated',
       data: models
     });
   });
 };
 
 // Handle delete question
-// delete: api/useranswers/:id
+// delete: api/QuestionNodes/:id
 exports.delete = function(req, res) {
-  UserAnswerModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
+  QuestionNodeModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'UserAnswer deleted'
+      message: 'QuestionNode deleted'
     });
   });
 };

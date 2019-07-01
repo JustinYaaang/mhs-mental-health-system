@@ -3,36 +3,21 @@ var mongoose = require('../config/config');
 var Schema = mongoose.Schema;
 
 var QuestionnaireSchema = new Schema({
-	question_id: {
+	questionnode_id: [{
+		type: Schema.Types.ObjectId,
+    ref: 'QuestionnaireModel',
+    required: true
+	}],
+	patient_id: [{
 		type: Schema.Types.ObjectId,
     ref: 'QuestionModel',
     required: true
-	},
-	is_root: {
+	}],
+  is_public: {
 		type: 'Boolean',
 		required: true
-	},
-	input: {
-		node: [{
-			type: Schema.Types.ObjectId,
-      ref: 'QuestionnaireModel',
-		}],
-		data: [{
-			type: Schema.Types.ObjectId,
-      ref: 'QuestionnaireModel',
-		}]
-	},
-	output: {
-		node: [{
-			type: Schema.Types.ObjectId,
-      ref: 'QuestionnaireModel',
-		}],
-		data: [{
-			type: Schema.Types.ObjectId,
-      ref: 'QuestionnaireModel',
-		}]
 	}
 });
 
-var QuestionnaireModel = mongoose.model('QuestionnaireModel', QuestionnaireSchema, 'questionnaires' );
+var QuestionnaireModel = mongoose.model('QuestionnaireModel', QuestionnaireSchema, 'questionaires' );
 module.exports = QuestionnaireModel;

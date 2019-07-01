@@ -2,14 +2,19 @@ var mongoose = require('../config/config');
 
 var Schema = mongoose.Schema;
 
-var UserAnswersSchema = new Schema({
+var PatientAnswerSchema = new Schema({
   questionnaire_id: {
     type: Schema.Types.ObjectId,
     ref: 'QuestionnaireModel',
     required: true
   },
-  answer: {
-    type: {
+  answers: {
+    type: [{
+      questionnode_id:{
+        type: Schema.Types.ObjectId,
+        ref: 'QuestionNodeModel',
+        required: true
+      },
       title: {
         type: 'String',
         required: true
@@ -18,10 +23,10 @@ var UserAnswersSchema = new Schema({
         type: 'Number',
         required: true
       }
-    },
+    }],
     required: true
   }
 });
 
-var UserAnswerModel = mongoose.model('UserAnswerModel', UserAnswersSchema, 'useranswers');
-module.exports = UserAnswerModel;
+var PatientAnswerModel = mongoose.model('PatientAnswerModel', PatientAnswerSchema, 'patientanswers');
+module.exports = PatientAnswerModel;
