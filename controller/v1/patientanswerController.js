@@ -1,7 +1,7 @@
 var PatientAnswerModel = require('../../models/patientanswer')
 
 // Handle index actions
-// get: api/useranswers
+// get: api/patientanswers
 exports.index = function(req, res) {
   PatientAnswerModel.find().exec(function(err, models) {
     if (err)
@@ -14,7 +14,7 @@ exports.index = function(req, res) {
 };
 
 // Handle create contact actions
-// post: api/useranswers
+// post: api/patientanswers
 exports.new = function(req, res) {
   var models = new PatientAnswerModel(req.body);
   models.save(function(err) {
@@ -28,7 +28,7 @@ exports.new = function(req, res) {
 };
 
 // Handle view contact info
-// get: api/useranswers/:id
+// get: api/patientanswers/:id
 exports.view = function(req, res) {
   PatientAnswerModel.findById(req.params.id).exec(function(err, models) {
     if (err)
@@ -41,7 +41,7 @@ exports.view = function(req, res) {
 };
 
 // Handle update contact info
-// put: api/useranswers/:id
+// put: api/patientanswers/:id
 exports.update = function(req, res) {
   PatientAnswerModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
     if (err)
@@ -54,7 +54,7 @@ exports.update = function(req, res) {
 };
 
 // Handle delete question
-// delete: api/useranswers/:id
+// delete: api/patientanswers/:id
 exports.delete = function(req, res) {
   PatientAnswerModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
     if (err)
