@@ -31,7 +31,7 @@ exports.new = function (req, res) {
 // Handle view questionnaire by given ID
 // get: api/questionnaire_sJS/:id
 exports.view = function (req, res) {
-  Questionnaire_sJSModel.findById(req.params.id).populate('_id').exec(function (err, models) {
+  Questionnaire_sJSModel.findById(req.params.id).exec(function (err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
