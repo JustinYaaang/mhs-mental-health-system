@@ -1,9 +1,11 @@
 var router = require('express').Router();
 var questionnaireController = require('../../controller/v1/questionnaireController');
+var JWT = require('../../auth/jwt')
+var patient = require('../../auth/patient')
 
 router.route('/')
-    .get(questionnaireController.index)
-    .post(questionnaireController.new);
+    .get(JWT.verify, patient.verify, questionnaireController.index)
+    .post(JWT.verify_strong,questionnaireController.new);
 router.route('/:id')
     .get(questionnaireController.view)
     .patch(questionnaireController.update)

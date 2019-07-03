@@ -5,19 +5,17 @@ var Schema = mongoose.Schema;
 var QuestionnaireSchema = new Schema({
 	questionnode_id: [{
 		type: Schema.Types.ObjectId,
-    ref: 'QuestionnaireModel',
-    required: true
-	}],
-	patient_id: [{
-		type: Schema.Types.ObjectId,
-    ref: 'QuestionModel',
-    required: true
+    ref: 'QuestionnodeModel',
 	}],
   is_public: {
+		type: 'Boolean',
+		required: true
+	},
+	is_published: {
 		type: 'Boolean',
 		required: true
 	}
 });
 
-var QuestionnaireModel = mongoose.model('QuestionnaireModel', QuestionnaireSchema, 'questionaires' );
+var QuestionnaireModel = mongoose.model('QuestionnaireModel', QuestionnaireSchema, 'questionnaires' );
 module.exports = QuestionnaireModel;

@@ -3,10 +3,10 @@ var QuestionnaireModel = require('../../models/questionnaire')
 // Handle index actions
 // get: api/Questionnaires
 exports.index = function(req, res) {
-  QuestionnaireModel.find({ is_root: 'true' }).exec(function(err, models) {
+  QuestionnaireModel.find(req.query).exec(function(err, models) {
     if (err)
-      res.status(404).send(err);
-    res.status(200).send({
+      res.send(err);
+    res.send({
       message: "Questionnaire retrieved successfully",
       data: models
     });
@@ -19,8 +19,8 @@ exports.new = function(req, res) {
   var models = new QuestionnaireModel(req.body);
   models.save(function(err) {
     if (err)
-      res.status(404).send(err);
-    res.status(201).send({
+      res.send(err);
+    res.send({
       message: 'Questionnaire created!',
       data: models
     });
@@ -32,8 +32,8 @@ exports.new = function(req, res) {
 exports.view = function(req, res) {
   QuestionnaireModel.findById(req.params.id).populate('question_id').exec(function(err, models) {
     if (err)
-      res.status(404).send(err);
-    res.status(200).send({
+      res.send(err);
+    res.send({
       message: 'Questionnaire details loading..',
       data: models
     });
