@@ -14,12 +14,13 @@ exports.generate = function(req, res, next) {
 
 exports.verify = function(req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  // decode token
-  if (token) {
+  // var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    var token = req.headers.authorization.split(' ')[1];
     // verifies secret and checks exp
     jwt.verify(token, req.app.get('secretKey'), function(err, decoded) {
+      // decode token
       if (err) {
         return res.json({
           success: false,

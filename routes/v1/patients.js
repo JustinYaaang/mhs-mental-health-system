@@ -8,4 +8,10 @@ router.route('/authenticate')
 router.route('/register')
   .post(patientController.register, JWT.generate);
 
+router.route('/:id')
+  .get(patientController.view)
+  .patch(patientController.update)
+  .put(patientController.update)
+  .delete(patientController.delete);
+
 module.exports = router;
