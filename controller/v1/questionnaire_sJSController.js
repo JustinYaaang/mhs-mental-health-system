@@ -56,8 +56,7 @@ exports.update = function (req, res) {
 
 // Handle update status action by given a questionnaire id and the new status text
 // put: api/questionnaire_sJS/:id/:status
-exports.update = function (req, res) {
-  console.log(req.params);
+exports.updatewithstatus = function (req, res) {
   Questionnaire_sJSModel.findById(req.params.id, function (err, doc) {
     if (err) {
       res.status(404).send(err); //exit here
