@@ -4,7 +4,7 @@ var Questionnaire_sJSModel = require('../../models/questionnaire_sJS')
 // Handle index actions
 // get: api/questionnaire_sJS
 exports.index = function (req, res) {
-  Questionnaire_sJSModel.find().select('title description status').exec(function (err, models){
+  Questionnaire_sJSModel.find(req.query).select('title description status').exec(function (err, models){
     if (err)
       res.status(404).send(err);
     res.status(200).send({
