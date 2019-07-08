@@ -18,5 +18,5 @@ var PatientSchema = new Schema({
 
 // bcrypt.compareSync(req.body.password, userInfo.password)
 
-var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patient');
+var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patients');
 module.exports = PatientModel;

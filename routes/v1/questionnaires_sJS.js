@@ -11,5 +11,5 @@ router.route('/:id')
     .delete(questionnaire_sJSController.delete);
 
 router.route('/:id/:status')
-    .patch(questionnaire_sJSController.update);
+    .patch(questionnaire_sJSController.updatewithstatus);
 module.exports = router;

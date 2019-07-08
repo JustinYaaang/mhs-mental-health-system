@@ -3,7 +3,7 @@ var QuestionNodeModel = require('../../models/questionnode')
 // Handle index actions
 // get: api/QuestionNodes
 exports.index = function(req, res) {
-  QuestionNodeModel.find({ is_root: 'true' }).exec(function(err, models) {
+  QuestionNodeModel.find(req.query).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
