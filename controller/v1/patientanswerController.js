@@ -9,33 +9,30 @@ exports.index = function(req, res) {
       $lt: req.query.endDate
     }
   };
-  if(req.query.groupby == 'date'){
+  if (req.query.groupby == 'date') {
     PatientAnswerModel.aggregate().match({
         timestamp: {
           $gte: new Date(req.query.startDate),
           $lt: new Date(req.query.endDate)
         }
       }).project({
-        'y': {
-          '$year': '$timestamp'
+        'dow': {
+          '$dayOfWeek': '$_id'
         },
-        'm': {
-          '$month': '$timestamp'
-        },
-        'd': {
-          '$dayOfMonth': '$timestamp'
-        },
-        "date": {
-          "$dateToString": {
-            "format": "%Y-%m-%d",
-            "date": "$_id"
+        'date': {
+          '$dateToString': {
+            'format': '%Y-%m-%d',
+            'date': '$_id'
           }
         }
       })
       .group({
         _id: '$date',
+        dayOfWeek: {
+          $avg: '$dow'
+        },
         count: {
-          "$sum": 1
+          '$sum': 1
         }
       }).exec(function(err, results) {
         if (err)
@@ -45,12 +42,12 @@ exports.index = function(req, res) {
           data: results
         });
       });
-  }else{
+  } else {
     PatientAnswerModel.find(query).exec(function(err, models) {
       if (err)
         res.status(404).send(err);
       res.status(200).send({
-        message: "PatientAnswer retrieved successfully",
+        message: 'PatientAnswer retrieved successfully',
         data: models
       });
     });
