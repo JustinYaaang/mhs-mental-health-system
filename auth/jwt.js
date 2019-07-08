@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
 
 exports.generate = function(req, res, next) {
-  const token = jwt.sign({
-    id: req._id,
+  const payload = {
+    id: req.id,
     is_clinician: req.is_clinician
-  }, req.app.get('secretKey'), {
+  }
+  console.log(payload)
+  const token = jwt.sign(payload, req.app.get('secretKey'), {
     expiresIn: '1d'
   });
   return res.status(200).send({

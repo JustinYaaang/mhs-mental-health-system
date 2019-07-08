@@ -2,7 +2,7 @@ var mongoose = require('../config/config');
 
 var Schema = mongoose.Schema;
 
-var PatientGroupSchema = new Schema({
+var PatientAuthSchema = new Schema({
 	patient_id: {
 		type: Schema.Types.ObjectId,
     ref: 'PatientModel',
@@ -14,5 +14,5 @@ var PatientGroupSchema = new Schema({
 	},
 });
 
-var PatientAuthModel = mongoose.model('PatientGroupModel', PatientGroupSchema, 'patientgroup' );
+var PatientAuthModel = mongoose.model('PatientAuthModel', PatientAuthSchema, 'patientauth' );
 module.exports = PatientAuthModel;
