@@ -2,14 +2,15 @@ var router = require('express').Router();
 var questionnaireController = require('../../controller/v1/questionnaireController');
 var JWT = require('../../auth/jwt')
 var patient = require('../../auth/patient')
+var clinician = require('../../auth/clinician')
 
 router.route('/')
-    .get(JWT.verify, patient.verify, questionnaireController.index)
-    .post(JWT.verify_strong,questionnaireController.new);
+  .get(JWT.verify, patient.verify, clinician.verify, questionnaireController.index)
+  .post(JWT.verify_strong, clinician.verify, questionnaireController.new);
 router.route('/:id')
-    .get(questionnaireController.view)
-    .patch(questionnaireController.update)
-    .put(questionnaireController.update)
-    .delete(questionnaireController.delete);
+  .get(JWT.verify, patient.verify, clinician.verify, questionnaireController.view)
+  .patch(JWT.verify_strong, clinician.verify, questionnaireController.update)
+  .put(JWT.verify_strong, clinician.verify, questionnaireController.update)
+  .delete(JWT.verify_strong, clinician.verify, questionnaireController.delete);
 
 module.exports = router;

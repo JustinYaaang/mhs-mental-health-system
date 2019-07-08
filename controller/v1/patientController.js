@@ -6,9 +6,15 @@ exports.authenticate = function(req, res, next) {
   }).exec(function(err, models) {
     if (err)
       res.status(404).send(err)
-    req.id = models._id;
-    req.is_clinician = false;
-    next();
+    if(models){
+      req.id = models._id;
+      req.is_clinician = false;
+      next();
+    }else{
+      res.status(401).send({
+        message: 'Patient not found!',
+      });
+    }
   });
 }
 
