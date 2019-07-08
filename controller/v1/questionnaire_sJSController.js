@@ -70,7 +70,6 @@ exports.updatewithstatus = function (req, res) {
       });
     }
   });
-
 };
 
 

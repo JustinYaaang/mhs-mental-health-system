@@ -8,6 +8,7 @@ exports.verify = function(req, res, next) {
     req.query.is_published = true;
     next();
   } else {
+    // is patient
     if (!req.jwt.is_clinician) {
       PatientAuthModel.find({
         patient_id: req.jwt.id
@@ -46,6 +47,4 @@ exports.verify = function(req, res, next) {
       });
     }
   }
-
-
 }

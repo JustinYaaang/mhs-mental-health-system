@@ -3,26 +3,24 @@ var PatientAnswerModel = require('../../models/patientanswer')
 // Handle index actions
 // get: api/patientanswers
 exports.index = function(req, res) {
-  var query = {
-    timestamp: {
-      $gt: req.query.startDate,
-      $lt: req.query.endDate
-    }
-  };
+  var query = {};
+  if (req.query.startDate || req.query.endDate) {
+    query.createdAt = {};
+    query.createdAt.$gte = new Date(req.query.startDate);
+    query.createdAt.$lt = new Date(req.query.endDate);
+  }
+
   if (req.query.groupby == 'date') {
-    PatientAnswerModel.aggregate().match({
-        timestamp: {
-          $gte: new Date(req.query.startDate),
-          $lt: new Date(req.query.endDate)
-        }
-      }).project({
+    PatientAnswerModel.aggregate()
+      .match(query)
+      .project({
         'dow': {
-          '$dayOfWeek': '$_id'
+          '$dayOfWeek': '$createdAt'
         },
         'date': {
           '$dateToString': {
             'format': '%Y-%m-%d',
-            'date': '$_id'
+            'date': '$createdAt'
           }
         }
       })
@@ -45,6 +43,7 @@ exports.index = function(req, res) {
         });
       });
   } else {
+
     PatientAnswerModel.find(query).exec(function(err, models) {
       if (err)
         res.status(404).send(err);
@@ -54,20 +53,6 @@ exports.index = function(req, res) {
       });
     });
   }
-
-
-
-  // .exec(function(err, models) {
-  //   if (err)
-  //     res.status(404).send(err);
-  //
-  //   function(err, results) {
-  //     res.status(200).send({
-  //       message: 'PatientAnswer retrieved successfully',
-  //       data: models
-  //     });
-  //   }
-  // });
 };
 
 // Handle create contact actions
