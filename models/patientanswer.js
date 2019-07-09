@@ -24,6 +24,11 @@ var PatientAnswerSchema = new Schema({
     body: {
       type: 'String',
       required: true
+    },
+    //questionnaire's body
+    questionnaireBody: {
+      type: 'String',
+      required: true
     }
   },
   //timestamp that the questionnaire was completed
