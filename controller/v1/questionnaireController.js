@@ -3,6 +3,7 @@ var QuestionnaireModel = require('../../models/questionnaire')
 // Handle index actions
 // get: api/Questionnaires
 exports.index = function(req, res) {
+  console.log('controller:' ,req.query);
   QuestionnaireModel.find(req.query).exec(function(err, models) {
     if (err)
       res.send(err);
