@@ -1,16 +1,18 @@
 var router = require('express').Router();
 var questionnaireController = require('../../controller/v1/questionnaireController');
 var JWT = require('../../auth/jwt')
-var patient = require('../../auth/patient')
-var clinician = require('../../auth/clinician')
-
+var questionnaireAuth = require('../../auth/questionnaireAuth')
+const asyncMiddleware = fn => (req, res, next) => {
+    Promise.resolve(fn(req, res, next))
+        .catch(next);
+};
 router.route('/')
-  .get(JWT.verify, patient.verify,  questionnaireController.index)
-  .post(JWT.verify_strong,  questionnaireController.new);
+  .get(JWT.verify, asyncMiddleware(questionnaireAuth.index), questionnaireController.index)
+  .post(JWT.verify, questionnaireController.new);
 router.route('/:id')
-  .get(JWT.verify, patient.verify,  questionnaireController.view)
-  .patch(JWT.verify_strong,  questionnaireController.update)
-  .put(JWT.verify_strong,  questionnaireController.update)
-  .delete(JWT.verify_strong,  questionnaireController.delete);
+  .get(JWT.verify, questionnaireController.view)
+  .patch(JWT.verify, questionnaireController.update)
+  .put(JWT.verify, questionnaireController.update)
+  .delete(JWT.verify, questionnaireController.delete);
 
 module.exports = router;

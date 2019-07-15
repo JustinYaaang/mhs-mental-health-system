@@ -8,7 +8,6 @@ exports.authenticate = function(req, res, next) {
       res.status(404).send(err)
     if(models){
       req.id = models._id;
-      req.is_clinician = false;
       next();
     }else{
       res.status(401).send({
