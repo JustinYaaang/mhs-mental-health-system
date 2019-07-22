@@ -48,8 +48,11 @@ exports.checkemail = function(req, res, next) {
   }).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
+    console.log(models);
+    req.models = models;
     next();
   });
+
 }
 
 // Handle index actions

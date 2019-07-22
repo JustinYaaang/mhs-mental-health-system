@@ -2,6 +2,11 @@ var router = require('express').Router();
 var patientController = require('../../controller/v1/patientController');
 var jwt = require('../../auth/jwt');
 var email = require('../../auth/email');
+var patientAuth = require('../../auth/patientAuth');
+const asyncMiddleware = fn => (req, res, next) => {
+    Promise.resolve(fn(req, res, next))
+        .catch(next);
+};
 
 /**
  * @swagger
@@ -52,11 +57,12 @@ router.route('/authenticate')
  *       200:
  *         description: token
  */
+
 router.route('/register')
   .post(patientController.register, email.register);
 
 router.route('/checkemail')
-  .get(patientController.checkemail);
+  .get(patientController.checkemail, asyncMiddleware(patientAuth.add));
 
 router.route('/:id')
   .get(patientController.view)

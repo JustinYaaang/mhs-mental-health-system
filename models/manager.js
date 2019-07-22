@@ -13,6 +13,7 @@ var ClinicianSchema = new Schema({
   }
 });
 
+
 // hash user NHS number before saving into database
 // PatientSchema.pre('save', function(next) {
 //   this.NHS_number = bcrypt.hashSync(this.NHS_number, saltRounds);
