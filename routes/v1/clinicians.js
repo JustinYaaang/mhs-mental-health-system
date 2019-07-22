@@ -5,15 +5,15 @@ var clinicianAuth = require('../../auth/clinicianAuth')
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/authenticate')
-  .post(clinicianController.authenticate, jwtAuth.generate);
+  .post(clinicianController.authenticate, clinicianAuth.authenticate, jwtAuth.generate);
 
 router.route('/')
-  .get(jwtAuth.verify, asyncMiddleware(clinicianAuth.index), clinicianController.index)
-  .post(jwtAuth.verify, asyncMiddleware(clinicianAuth.new), clinicianController.new, asyncMiddleware(clinicianAuth.add));
+  .get(jwtAuth.verify, clinicianAuth.index, clinicianController.index)
+  .post(jwtAuth.verify, clinicianAuth.new, clinicianController.new, clinicianAuth.add);
 
 
 router.route('/:id')
-  .get(clinicianController.view,)
+  .get(clinicianController.view)
   .patch(clinicianController.update)
   .put(clinicianController.update)
   .delete(clinicianController.delete);

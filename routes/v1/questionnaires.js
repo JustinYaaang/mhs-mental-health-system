@@ -5,8 +5,9 @@ var questionnaireAuth = require('../../auth/questionnaireAuth')
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/')
-  .get(jwtAuth.verify, asyncMiddleware(questionnaireAuth.index), questionnaireController.index)
+  .get(jwtAuth.verify, questionnaireAuth.index, questionnaireController.index)
   .post(jwtAuth.verify, questionnaireController.new);
+
 router.route('/:id')
   .get(jwtAuth.verify, questionnaireController.view)
   .patch(jwtAuth.verify, questionnaireController.update)

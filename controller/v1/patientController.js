@@ -1,6 +1,6 @@
 var PatientModel = require('../../models/patient')
 var sendEmail = require('../../util/sendEmail');
-const bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 exports.authenticate = function(req, res, next) {
   PatientModel.findOne({
@@ -11,7 +11,7 @@ exports.authenticate = function(req, res, next) {
     if (models) {
       if (models.is_live){
         if (bcrypt.compareSync(req.body.password, models.password)){
-          req.id = models._id;
+          req.models = models;
           next();
         }else {
           res.status(401).send({

@@ -1,4 +1,4 @@
-const sendEmail = require('../util/sendEmail');
+var sendEmail = require('../util/sendEmail');
 
 exports.register = function(req, res) {
   var mail = {

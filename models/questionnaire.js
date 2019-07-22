@@ -7,10 +7,6 @@ var QuestionnaireSchema = new Schema({
 		type: Schema.Types.ObjectId,
     ref: 'QuestionnodeModel',
 	}],
-  is_public: {
-		type: 'Boolean',
-		required: true
-	},
 	is_published: {
 		type: 'Boolean',
 		required: true

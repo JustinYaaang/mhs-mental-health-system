@@ -28,9 +28,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
-const options = {
+var swaggerUi = require('swagger-ui-express');
+var swaggerJsdoc = require('swagger-jsdoc');
+var options = {
     swaggerDefinition: {
         info: {
             title: 'Backend API',
@@ -41,7 +41,7 @@ const options = {
     },
     apis: ['./routes/**/*.js'],
 };
-const specs = swaggerJsdoc(options);
+var specs = swaggerJsdoc(options);
 
 app.use('/', indexRouter);
 app.use('/api', require('./routes/api'));

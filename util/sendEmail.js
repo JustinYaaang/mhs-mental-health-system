@@ -1,7 +1,7 @@
-const config = require('../config/email');
+var config = require('../config/email');
 
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport(config);
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport(config);
 
 module.exports = function (mail){
     transporter.sendMail(mail, function(error, info){
