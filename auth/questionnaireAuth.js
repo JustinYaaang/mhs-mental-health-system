@@ -1,7 +1,7 @@
 exports.index = async (req, res, next) => {
   const enforcer = await require('../config/casbin');
-  await enforcer.getRolesForUser(req.jwt.id).then((id) => {
-    if (id == 'PATIENTS') {
+  await enforcer.getRolesForUser(req.jwt.id).then((role) => {
+    if (role == 'PATIENTS') {
       req.query.id = [];
       enforcer.getImplicitPermissionsForUser(req.jwt.id).then((permissions) => {
         for (permission of permissions) {
@@ -23,7 +23,11 @@ exports.index = async (req, res, next) => {
         console.log(req.query);
         next();
       })
-    } else if (id == 'MANAGERS') {
+    } else if (role == 'ROOT') {
+      next();
+    } else if (role == 'MANAGERS') {
+      next();
+    } else if (role == 'CLINICIANS') {
       next();
     }
   });
