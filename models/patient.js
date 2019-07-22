@@ -1,7 +1,7 @@
 var mongoose = require('../config/mongoose');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const uuidv1 = require('uuid/v1');
+var bcrypt = require('bcrypt');
+var saltRounds = 10;
+var uuidv1 = require('uuid/v1');
 
 var Schema = mongoose.Schema;
 

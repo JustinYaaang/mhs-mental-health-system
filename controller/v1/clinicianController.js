@@ -1,5 +1,5 @@
 var ClinicianModel = require('../../models/clinician')
-const bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 exports.authenticate = function(req, res, next) {
   ClinicianModel.findOne({
@@ -9,7 +9,7 @@ exports.authenticate = function(req, res, next) {
       res.status(404).send(err)
     if (models) {
       if (bcrypt.compareSync(req.body.password, models.password)) {
-        req.id = models._id;
+        req.models = models;
         next();
       } else {
         res.status(401).send({

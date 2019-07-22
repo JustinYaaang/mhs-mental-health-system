@@ -1,4 +1,4 @@
-const config = {
+var config = {
   service: 'gmail',
   auth: {
     user: 'uk.nhs.noreply@gmail.com', //刚才注册的邮箱账号
