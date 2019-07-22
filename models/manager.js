@@ -1,6 +1,4 @@
 var mongoose = require('../config/mongoose');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 var Schema = mongoose.Schema;
 
@@ -15,11 +13,12 @@ var ClinicianSchema = new Schema({
   }
 });
 
+
 // hash user NHS number before saving into database
-ClinicianSchema.pre('save', function(next) {
-  this.password = bcrypt.hashSync(this.password, saltRounds);
-  next();
-});
+// PatientSchema.pre('save', function(next) {
+//   this.NHS_number = bcrypt.hashSync(this.NHS_number, saltRounds);
+//   next();
+// });
 
 // bcrypt.compareSync(req.body.password, userInfo.password)
 

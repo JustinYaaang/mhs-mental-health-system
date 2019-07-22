@@ -1,22 +1,40 @@
 var mongoose = require('../config/mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const uuidv1 = require('uuid/v1');
 
 var Schema = mongoose.Schema;
 
 var PatientSchema = new Schema({
-  NHS_number: {
+  email: {
     type: 'String',
     required: true
   },
+  password:{
+    type: 'String',
+    required: true
+  },
+  code: {
+    type: 'String',
+    default: uuidv1()
+  },
+  expiration_data: {
+    type: Date,
+    default: new Date(+new Date() + 1*24*60*60*1000)
+  },
+  is_live: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
 // hash user NHS number before saving into database
-// PatientSchema.pre('save', function(next) {
-//   this.NHS_number = bcrypt.hashSync(this.NHS_number, saltRounds);
-//   next();
-// });
+PatientSchema.pre('save', function(next) {
+  this.password = bcrypt.hashSync(this.password, saltRounds);
+  next();
+});
 
-// bcrypt.compareSync(req.body.password, userInfo.password)
 
 var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patients');
 module.exports = PatientModel;

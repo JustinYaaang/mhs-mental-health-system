@@ -1,15 +1,29 @@
 var PatientModel = require('../../models/patient')
+var sendEmail = require('../../util/sendEmail');
+const bcrypt = require('bcrypt');
 
 exports.authenticate = function(req, res, next) {
   PatientModel.findOne({
-    NHS_number: req.body.NHS_number
+    email: req.body.email,
   }).exec(function(err, models) {
     if (err)
       res.status(404).send(err)
-    if(models){
-      req.id = models._id;
-      next();
-    }else{
+    if (models) {
+      if (models.is_live){
+        if (bcrypt.compareSync(req.body.password, models.password)){
+          req.id = models._id;
+          next();
+        }else {
+          res.status(401).send({
+            message: 'wrong password',
+          });
+        }
+      }else{
+        res.status(401).send({
+          message: 'no active account',
+        });
+      }
+    } else {
       res.status(401).send({
         message: 'Patient not found!',
       });
@@ -22,10 +36,23 @@ exports.register = function(req, res, next) {
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
-    req.id = models._id;
-    req.is_clinician = false;
+    console.log(models);
+    req.model = models;
     next();
   });
+}
+
+exports.checkemail = function(req, res, next) {
+  PatientModel.findOneAndUpdate(req.query, {
+    is_live: true
+  }).exec(function(err, models) {
+    if (err)
+      res.status(404).send(err);
+    console.log(models);
+    req.models = models;
+    next();
+  });
+
 }
 
 // Handle index actions
