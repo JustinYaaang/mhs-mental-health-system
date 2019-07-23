@@ -5,7 +5,7 @@ var clinicianAuth = require('../../auth/clinicianAuth')
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/authenticate')
-  .post(clinicianController.authenticate, clinicianAuth.authenticate, jwtAuth.generate);
+  .post(clinicianController.authenticate, asyncMiddleware(clinicianAuth.authenticate), jwtAuth.generate);
 
 router.route('/')
   .get(jwtAuth.verify, clinicianAuth.index, clinicianController.index)
@@ -13,9 +13,9 @@ router.route('/')
 
 
 router.route('/:id')
-  .get(clinicianController.view)
-  .patch(clinicianController.update)
-  .put(clinicianController.update)
-  .delete(clinicianController.delete);
+  .get(jwtAuth.verify, clinicianAuth.view, clinicianController.view)
+  .patch(jwtAuth.verify, clinicianAuth.update, clinicianController.update)
+  .put(jwtAuth.verify, clinicianAuth.update, clinicianController.update)
+  .delete(jwtAuth.verify, clinicianAuth.delete, clinicianController.delete);
 
 module.exports = router;

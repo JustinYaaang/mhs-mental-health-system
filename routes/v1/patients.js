@@ -6,7 +6,7 @@ var email = require('../../auth/email');
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/authenticate')
-  .post(patientController.authenticate, patientAuth.authenticate, jwtAuth.generate);
+  .post(patientController.authenticate, asyncMiddleware(patientAuth.authenticate), jwtAuth.generate);
 
 router.route('/register')
   .post(patientController.register, email.register);

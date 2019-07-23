@@ -1,6 +1,6 @@
 var PatientModel = require('../../models/patient')
 var sendEmail = require('../../util/sendEmail');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 exports.authenticate = function(req, res, next) {
   PatientModel.findOne({
