@@ -1,8 +1,12 @@
 exports.authenticate = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  await enforcer.getRolesForUser(String(req.models._id)).then((role) =>{
-    req.role = role;
-  });
+  var role = []
+  while (role.length == 0){
+    await enforcer.getRolesForUser(String(req.models._id)).then((roles) => {
+      role = roles;
+    });
+  }
+  req.role = role;
   next();
 }
 
@@ -34,35 +38,38 @@ exports.new = async (req, res, next) => {
 
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "clinicians", req.params.id, req.method) == true) {
-    next();
-  } else {
-    res.status(401).send({
-      message: 'Not Allow!',
-    });
-  }
+  await enforcer.getRolesForUser(String(req.params.id)).then((role) => {
+    if (enforcer.enforce(req.jwt.id, "clinicians", role, req.method) == false) {
+      res.status(401).send({
+        message: 'Not Allow!',
+      });
+    }
+  });
+  next();
 }
 
 exports.update = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "clinicians", req.params.id, req.method) == true) {
-    next();
-  } else {
-    res.status(401).send({
-      message: 'Not Allow!',
-    });
-  }
+  await enforcer.getRolesForUser(String(req.params.id)).then((role) => {
+    if (enforcer.enforce(req.jwt.id, "clinicians", role, req.method) == false) {
+      res.status(401).send({
+        message: 'Not Allow!',
+      });
+    }
+  });
+  next();
 }
 
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "clinicians", req.params.id, req.method) == true) {
-    next();
-  } else {
-    res.status(401).send({
-      message: 'Not Allow!',
-    });
-  }
+  await enforcer.getRolesForUser(String(req.params.id)).then((role) => {
+    if (enforcer.enforce(req.jwt.id, "clinicians", role, req.method) == false) {
+      res.status(401).send({
+        message: 'Not Allow!',
+      });
+    }
+  });
+  next();
 }
 
 exports.add = async (req, res) => {

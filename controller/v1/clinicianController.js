@@ -1,5 +1,5 @@
 var ClinicianModel = require('../../models/clinician')
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 exports.authenticate = function(req, res, next) {
   ClinicianModel.findOne({
