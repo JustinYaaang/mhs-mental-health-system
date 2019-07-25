@@ -1,8 +1,8 @@
-var ClinicianModel = require('../../models/clinician')
+var UserModel = require('../../models/user')
 var bcrypt = require('bcryptjs');
 
 exports.authenticate = function(req, res, next) {
-  ClinicianModel.findOne({
+  UserModel.findOne({
     email: req.body.email,
   }).exec(function(err, models) {
     if (err)
@@ -18,29 +18,29 @@ exports.authenticate = function(req, res, next) {
       }
     } else {
       res.status(401).send({
-        message: 'Clinician not found!',
+        message: 'User not found!',
       });
     }
   });
 }
 
 // Handle index actions
-// get: api/Clinicians
+// get: api/Users
 exports.index = function(req, res) {
-  ClinicianModel.find().exec(function(err, models) {
+  UserModel.find().exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: "Clinician retrieved successfully",
+      message: "User retrieved successfully",
       data: models
     });
   });
 };
 
 // Handle create contact actions
-// post: api/Clinicians
+// post: api/Users
 exports.new = function(req, res, next) {
-  var models = new ClinicianModel(req.body);
+  var models = new UserModel(req.body);
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
@@ -50,39 +50,39 @@ exports.new = function(req, res, next) {
 };
 
 // Handle view contact info
-// get: api/Clinicians/:id
+// get: api/Users/:id
 exports.view = function(req, res) {
-  ClinicianModel.findById(req.params.id).exec(function(err, models) {
+  UserModel.findById(req.params.id).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'Clinician details loading..',
+      message: 'User details loading..',
       data: models
     });
   });
 };
 
 // Handle update contact info
-// put: api/Clinicians/:id
+// put: api/Users/:id
 exports.update = function(req, res) {
-  ClinicianModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
+  UserModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'Clinician Info updated',
+      message: 'User Info updated',
       data: models
     });
   });
 };
 
 // Handle delete question
-// delete: api/Clinicians/:id
+// delete: api/Users/:id
 exports.delete = function(req, res) {
-  ClinicianModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
+  UserModel.findByIdAndDelete(req.params.id).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
-      message: 'Clinician deleted'
+      message: 'User deleted'
     });
   });
 };
