@@ -6,12 +6,12 @@ var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/')
   .get(jwtAuth.verify, questionnaireAuth.index, questionnaireController.index)
-  .post(jwtAuth.verify, questionnaireController.new);
+  .post(jwtAuth.verify, questionnaireAuth.new, questionnaireController.new, questionnaireAuth.add);
 
 router.route('/:id')
-  .get(jwtAuth.verify, questionnaireController.view)
-  .patch(jwtAuth.verify, questionnaireController.update)
-  .put(jwtAuth.verify, questionnaireController.update)
-  .delete(jwtAuth.verify, questionnaireController.delete);
+  .get(jwtAuth.verify, questionnaireAuth.view, questionnaireController.view)
+  .patch(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
+  .put(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
+  .delete(jwtAuth.verify, questionnaireAuth.delete, questionnaireController.delete);
 
 module.exports = router;

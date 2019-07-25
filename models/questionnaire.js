@@ -10,6 +10,10 @@ var QuestionnaireSchema = new Schema({
 	is_published: {
 		type: 'Boolean',
 		required: true
+	},
+	is_public: {
+		type: 'Boolean',
+		required: true
 	}
 });
 

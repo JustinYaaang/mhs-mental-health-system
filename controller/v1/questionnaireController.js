@@ -21,10 +21,8 @@ exports.new = function(req, res) {
   models.save(function(err) {
     if (err)
       res.send(err);
-    res.send({
-      message: 'Questionnaire created!',
-      data: models
-    });
+    req.models = models;
+    next();
   });
 };
 
