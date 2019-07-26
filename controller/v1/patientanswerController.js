@@ -3,8 +3,8 @@ var PatientAnswerModel = require('../../models/patientanswer')
 // Handle index actions
 // get: api/patientanswers
 exports.index = function(req, res) {
-  var query = {};
   if (req.query.startDate || req.query.endDate) {
+    var query = {};
     query.createdAt = {};
     query.createdAt.$gte = new Date(req.query.startDate);
     query.createdAt.$lt = new Date(req.query.endDate);
@@ -44,7 +44,7 @@ exports.index = function(req, res) {
       });
   } else {
 
-    PatientAnswerModel.find(query).exec(function(err, models) {
+    PatientAnswerModel.find(req.query).exec(function(err, models) {
       if (err)
         res.status(404).send(err);
       res.status(200).send({

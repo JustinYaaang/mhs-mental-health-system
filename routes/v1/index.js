@@ -6,11 +6,11 @@ var router = require('express').Router();
  * description: All about API
  */
 
-router.use('/questions', require('./questions'));
+router.use('/users', require('./users'));
+router.use('/organisations', require('./organisations'));
+router.use('/patients', require('./patients'));
 router.use('/questionnaires',require('./questionnaires'));
 router.use('/patientanswers', require('./patientanswers'));
-router.use('/patients', require('./patients'));
-router.use('/clinicians', require('./clinicians'));
 router.use('/questionnaire_sJS', require('./questionnaires_sJS'));
 
 module.exports = router;

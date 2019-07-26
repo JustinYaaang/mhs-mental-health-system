@@ -10,10 +10,6 @@ exports.authenticate = async (req, res, next) => {
   next();
 }
 
-exports.index = function(req, res, next) {}
-
-exports.new = function(req, res, next) {}
-
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   await enforcer.addGroupingPolicy(req.models._id, 'PATIENTS');
