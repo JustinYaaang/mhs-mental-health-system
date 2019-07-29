@@ -26,7 +26,6 @@ exports.index = async (req, res, next) => {
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "users", req.body.role, req.method)) {
-    next();
   } else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -54,7 +53,6 @@ exports.add = async (req, res) => {
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "users", req.params.id, req.method)) {
-    next();
   } else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -65,7 +63,6 @@ exports.view = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   if (await enforcer.enforce(req.jwt.id, "users", req.params.id, req.method)) {
-    next();
   } else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -77,7 +74,6 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "users", req.params.id, req.method)) {
-    next();
   } else {
     res.status(401).send({
       message: 'Not Allow!',
