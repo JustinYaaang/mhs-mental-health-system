@@ -2,6 +2,7 @@ exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
+  console.log(subjects);
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "questionnaires", subject, req.method)) {
       result.push(subject);
@@ -29,6 +30,7 @@ exports.new = async (req, res, next) => {
 
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
+  await enforcer.addPolicy(req.models.id, "questionnaires", req.models.id, "GET")
   if (req.body.is_public) {
     await enforcer.addGroupingPolicy(req.models.id, "FORM1");
   }
