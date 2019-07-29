@@ -9,7 +9,7 @@ router.route('/authenticate')
 
 router.route('/')
   .get(jwtAuth.verify, userAuth.index, userController.index)
-  .post(jwtAuth.verify, userController.new);
+  .post(jwtAuth.verify, userController.new, userAuth.add);
 
 
 router.route('/:id')
