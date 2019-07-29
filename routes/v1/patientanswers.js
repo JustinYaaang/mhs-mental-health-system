@@ -1,10 +1,10 @@
 var router = require('express').Router();
-var patientAuth = require('../../auth/patientAuth');
+var patientanswerAuth = require('../../auth/patientanswerAuth');
 var patientanswerController = require('../../controller/v1/patientanswerController');
 
 router.route('/')
   .get(patientanswerController.index)
-  .post(patientAuth.new, patientanswerController.new);
+  .post(patientanswerAuth.new, patientanswerController.new);
 
 router.route('/:id')
   .get(patientanswerController.view)

@@ -24,6 +24,7 @@ var PatientSchema = new Schema({
   },
   postcode: {
     type: 'String',
+    required: true
   },
   organisation_id: {
     type: Schema.Types.ObjectId,
@@ -39,7 +40,7 @@ var PatientSchema = new Schema({
   },
   is_live: {
     type: Boolean,
-    default: false
+    default: true
   }
 });
 
