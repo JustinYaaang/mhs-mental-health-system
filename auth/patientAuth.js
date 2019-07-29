@@ -12,6 +12,7 @@ exports.authenticate = async (req, res, next) => {
 
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
+  console.log(req.models);
   await enforcer.addGroupingPolicy(req.models._id, 'PATIENT');
   res.status(200).send({
     message: 'check email successfully',

@@ -9,7 +9,10 @@ router.route('/authenticate')
   .post(patientController.authenticate, asyncMiddleware(patientAuth.authenticate), jwtAuth.generate);
 
 router.route('/register')
-  .post(patientController.register, email.register);
+  .post(patientController.register,
+    // email.register,
+    patientAuth.add
+  );
 
 router.route('/checkemail')
   .get(patientController.checkemail, patientAuth.add);

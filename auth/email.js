@@ -4,8 +4,8 @@ exports.register = function(req, res) {
   var mail = {
       from: 'NHS',
       subject: 'NHS Registration',
-      to: req.model.email,
-      text: `http://localhost:3000/api/v1/patients/checkemail?email=${req.model.email}&code=${req.model.code}`
+      to: req.models.email,
+      text: `http://localhost:3000/api/v1/patients/checkemail?email=${req.models.email}&code=${req.models.code}`
   };
   sendEmail(mail);
   res.status(200).send({
