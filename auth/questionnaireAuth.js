@@ -32,6 +32,9 @@ exports.add = async (req, res) => {
   if (req.body.is_public) {
     await enforcer.addGroupingPolicy(req.models.id, "FORM1");
   }
+  res.status(200).send({
+    message: 'Added',
+  });
 }
 
 exports.view = async (req, res, next) => {

@@ -5,24 +5,13 @@ var questionnaireAuth = require('../../auth/questionnaireAuth')
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/')
-  .get(jwtAuth.verify, questionnaireAuth.index, questionnaireController.index)
-  .post(jwtAuth.verify, questionnaireAuth.new, questionnaireController.new, questionnaireAuth.add);
-
-router.route('/:id')
-  .get(jwtAuth.verify, questionnaireAuth.view, questionnaireController.view)
-  .patch(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
-  .put(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
-  .delete(jwtAuth.verify, questionnaireAuth.delete, questionnaireController.delete);
-
-
-router.route('/')
   /**
    * @swagger
    * /api/v1/questionnaire_sJS:
    *    get:
    *      description: This should return all questionnaires
    */
-  .get(jwtAuth.verify, questionnaire_sJSController.index, questionnaireController.index)
+  .get(jwtAuth.verify, questionnaireAuth.index, questionnaire_sJSController.index)
   /**
    * @swagger
    * /api/v1/questionnaire_sJS:

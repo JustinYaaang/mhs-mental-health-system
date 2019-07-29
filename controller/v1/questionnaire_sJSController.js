@@ -16,15 +16,13 @@ exports.index = function (req, res) {
 
 // Handles the create new questionnaire action
 // post: api/questionnaire_sJS
-exports.new = function (req, res) {
+exports.new = function (req, res, next) {
   var models = new Questionnaire_sJSModel(req.body);
   models.save(function (err) {
     if (err)
       res.status(404).send(err);
-    res.status(201).send({
-      message: 'Questionnaire created!',
-      data: models
-    });
+    req.models = models;
+    next();
   });
 };
 
