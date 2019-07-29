@@ -27,7 +27,7 @@ exports.authenticate = function(req, res, next) {
 // Handle index actions
 // get: api/Users
 exports.index = function(req, res) {
-  UserModel.find().exec(function(err, models) {
+  UserModel.find().populate('organisation').exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({

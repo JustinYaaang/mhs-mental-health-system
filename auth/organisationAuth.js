@@ -1,9 +1,10 @@
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
+  console.log(subjects);
   var result = [];
   for (subject of subjects) {
-    if (await enforcer.enforce(req.jwt.id, "orgainisations", subject, req.method)) {
+    if (await enforcer.enforce(req.jwt.id, "organisations", subject, req.method)) {
       result.push(subject);
     }
   }
@@ -18,7 +19,7 @@ exports.index = async (req, res, next) => {
 
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "orgainisations", req.body.role, req.method)) {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.body.role, req.method)) {
     next();
   } else {
     res.status(401).send({
@@ -31,6 +32,7 @@ exports.new = async (req, res, next) => {
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   await enforcer.addGroupingPolicy(req.models.id, req.models.role);
+  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET")
   res.status(200).send({
     message: 'add successfully',
   });
@@ -38,7 +40,7 @@ exports.add = async (req, res) => {
 
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "orgainisations", req.params.id, req.method)) {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
     next();
   } else {
     res.status(401).send({
@@ -49,7 +51,7 @@ exports.view = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-  if (await enforcer.enforce(req.jwt.id, "orgainisations", req.params.id, req.method)) {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
     next();
   } else {
     res.status(401).send({
@@ -60,7 +62,7 @@ exports.update = async (req, res, next) => {
 }
 
 exports.change = async (req, res) => {
-  if (await enforcer.enforce(req.jwt.id, "orgainisations", req.params.id, req.method)) {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
     next();
   } else {
     res.status(401).send({
@@ -72,7 +74,7 @@ exports.change = async (req, res) => {
 
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "orgainisations", req.params.id, req.method)) {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
     next();
   } else {
     res.status(401).send({

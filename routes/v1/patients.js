@@ -14,6 +14,10 @@ router.route('/register')
 router.route('/checkemail')
   .get(patientController.checkemail, patientAuth.add);
 
+router.route('/')
+  .get(patientController.index)
+  .post(patientController.new);
+
 router.route('/:id')
   .get(patientController.view)
   .patch(patientController.update)

@@ -41,7 +41,7 @@ var OrganisationSchema = new Schema({
   },
   organisation_id: {
 		type: Schema.Types.ObjectId,
-    ref: 'PatientModel',
+    ref: 'OrganisationModel',
 	},
 });
 

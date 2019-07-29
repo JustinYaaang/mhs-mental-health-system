@@ -7,29 +7,27 @@ var PatientAnswerSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Questionnaire_sJSModel',
       required: true
-    }, //questionnaire id , questionnaire name, patient name, score,timestamp
-    title: { //questionnaire's title
+    },
+    title: {
       type: 'String',
       required: true
     },
-    patient_name: { //patient's name TODO change to NHS number
+    score: {
       type: 'String',
       required: true
     },
-    score: { //questionnaire's score
-      type: 'String',
-      required: true
-    },
-    //questionnaire's answers
     body: {
       type: 'String',
       required: true
     },
-    //questionnaire's body
     questionnaireBody: {
       type: 'String',
       required: true
-    }
+    },
+    patient_id: {
+  		type: Schema.Types.ObjectId,
+      ref: 'PatientModel',
+  	},
   },
   //timestamp that the questionnaire was completed
   {
