@@ -2,25 +2,26 @@ exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
-  console.log(subjects);
+  console.log("All subjects", subjects, " <= questionAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "questionnaires", subject, req.method)) {
-      result.push(subject);
+      if (req.jwt.id != subject) {
+        result.push(subject);
+      }
     }
   }
-  console.log(req.jwt.id, " get ", result);
   req.query = {
     _id: {
       $in: result
     }
   };
+  console.log(result," <= userAuth");
   next();
 }
 
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.body.role, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.body.role, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -41,8 +42,7 @@ exports.add = async (req, res) => {
 
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -51,8 +51,7 @@ exports.view = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -61,8 +60,7 @@ exports.update = async (req, res, next) => {
 }
 
 exports.change = async (req, res) => {
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -72,8 +70,7 @@ exports.change = async (req, res) => {
 
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });

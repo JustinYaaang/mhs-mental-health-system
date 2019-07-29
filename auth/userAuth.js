@@ -1,11 +1,11 @@
 exports.authenticate = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var role = []
-  while (role.length == 0) {
+  // while (role.length == 0) {
     await enforcer.getRolesForUser(String(req.models._id)).then((roles) => {
       role = roles;
     });
-  };
+  // };
   req.role = role;
   next();
 }
@@ -14,12 +14,20 @@ exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
+  console.log("All subjects", subjects, " <= userAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "users", subject, req.method)) {
-      result.push(subject);
+      if(req.jwt.id!=subject){
+        result.push(subject);
+      }
     }
   }
-  req.query = result;
+  req.query = {
+    _id: {
+      $in: result
+    }
+  };
+  console.log(result," <= userAuth");
   next();
 }
 
