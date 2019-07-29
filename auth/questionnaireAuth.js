@@ -2,7 +2,7 @@ exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
-  console.log("All subjects", subjects, " <= questionAuth");
+  console.log("All subjects: ", subjects, " <= questionAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "questionnaires", subject, req.method)) {
       if (req.jwt.id != subject) {
@@ -15,7 +15,7 @@ exports.index = async (req, res, next) => {
       $in: result
     }
   };
-  console.log(result," <= userAuth");
+  console.log(req.jwt.id, req.method, result, " <= questionAuth");
   next();
 }
 

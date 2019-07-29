@@ -1,25 +1,34 @@
+var OrganisationModel = require('../models/organisation')
+
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
-  console.log(subjects);
+  console.log("All subjects", subjects, " <= organisationAuth");
   var result = [];
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "organisations", subject, req.method)) {
       result.push(subject);
     }
   }
-  console.log(req.jwt.id, " get ", result);
   req.query = {
     _id: {
       $in: result
     }
   };
+  console.log(req.jwt.id, req.method, result, " <= organisationAuth");
   next();
 }
 
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "organisations", req.body.role, req.method)) {
+    OrganisationModel.find({
+      id: req.jwt.id
+    }).exec(function(err, models) {
+      if (err)
+        res.send(err);
+      req.body.organisation_id;
+    });
   } else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -31,7 +40,10 @@ exports.new = async (req, res, next) => {
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   await enforcer.addGroupingPolicy(req.models.id, req.models.role);
-  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET")
+  await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
+  await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)");
+  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET");
+  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET");
   res.status(200).send({
     message: 'add successfully',
   });
@@ -39,8 +51,7 @@ exports.add = async (req, res) => {
 
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -49,8 +60,7 @@ exports.view = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -59,8 +69,7 @@ exports.update = async (req, res, next) => {
 }
 
 exports.change = async (req, res) => {
-  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -70,8 +79,7 @@ exports.change = async (req, res) => {
 
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {
-  } else {
+  if (await enforcer.enforce(req.jwt.id, "organisations", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });

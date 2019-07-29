@@ -27,7 +27,7 @@ exports.index = async (req, res, next) => {
       $in: result
     }
   };
-  console.log(result," <= userAuth");
+  console.log(req.jwt.id, req.method, result, " <= userAuth");
   next();
 }
 
@@ -44,15 +44,8 @@ exports.new = async (req, res, next) => {
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   var role = []
-  while (role.length == 0) {
-    await enforcer.getRolesForUser(String(req.jwt.id)).then((roles) => {
-      role = roles;
-    });
-  }
-  // await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
-  await enforcer.addPolicy(role[0], "users", req.models.organisation_id, "(GET)|(POST)|(PUT)|(DELETE)")
-  await enforcer.addPolicy(req.models.id, "users", req.models.organisation_id, "(GET)|(PUT)")
-  await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)")
+  await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
+  await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)");
   res.status(200).send({
     message: 'add successfully',
   });

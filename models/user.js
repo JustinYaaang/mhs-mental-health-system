@@ -31,6 +31,7 @@ var UserSchema = new Schema({
   organisation_id: {
     type: Schema.Types.ObjectId,
     ref: 'OrganisationModel',
+    required: true
   }
 });
 
