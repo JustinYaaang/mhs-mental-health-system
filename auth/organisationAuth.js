@@ -7,7 +7,12 @@ exports.index = async (req, res, next) => {
       result.push(subject);
     }
   }
-  req.query = result;
+  console.log(req.jwt.id, " get ", result);
+  req.query = {
+    _id: {
+      $in: result
+    }
+  };
   next();
 }
 
