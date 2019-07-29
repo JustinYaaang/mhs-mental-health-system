@@ -5,13 +5,8 @@ exports.authenticate = async (req, res, next) => {
     await enforcer.getRolesForUser(String(req.models._id)).then((roles) => {
       role = roles;
     });
-  }
-  console.log(req.jwt.id, " get ", result);
-  req.query = {
-    _id: {
-      $in: result
-    }
   };
+  req.role = role;
   next();
 }
 
