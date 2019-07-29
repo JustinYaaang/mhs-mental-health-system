@@ -6,7 +6,12 @@ exports.authenticate = async (req, res, next) => {
       role = roles;
     });
   }
-  req.role = role;
+  console.log(req.jwt.id, " get ", result);
+  req.query = {
+    _id: {
+      $in: result
+    }
+  };
   next();
 }
 
