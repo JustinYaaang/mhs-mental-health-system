@@ -62,3 +62,16 @@ exports.delete = function(req, res) {
     });
   });
 };
+
+// Handle find all services
+// get: api/organisations/services
+exports.fetch = function(req, res) {
+  OrganisationModel.find({role: 'SERVICE'}).exec(function(err, models) {
+    if (err)
+      res.send(err);
+    res.send({
+      message: "Organisation retrieved successfully",
+      data: models
+    });
+  });
+};
