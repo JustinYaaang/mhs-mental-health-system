@@ -27,7 +27,6 @@ exports.new = async (req, res, next) => {
     }).exec(function(err, models) {
       if (err)
         res.send(err);
-      console.log(models);
       req.body.organisation_id = models.organisation_id;
     });
   } else {
