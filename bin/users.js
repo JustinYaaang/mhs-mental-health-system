@@ -1,4 +1,12 @@
 exports.user1 = {
+  role: 'ADMIN',
+  email: 'uk.nhs.noreply@gmail.com',
+  password: '1234',
+  first_name: 'Joseph',
+  last_name: 'Connor',
+}
+
+exports.user2 = {
   first_name: "Chen",
   last_name: "Song",
   email: "song@nhs.uk",
@@ -6,7 +14,7 @@ exports.user1 = {
   role: "TRUSTMANAGER"
 }
 
-exports.user2 ={
+exports.user3 = {
   first_name: "Nick",
   last_name: "Baf",
   email: "baf@nhs.uk",
@@ -14,7 +22,7 @@ exports.user2 ={
   role: "SERVICEMANAGER"
 }
 
-exports.user3 ={
+exports.user4 = {
   first_name: "yiming",
   last_name: "Fan",
   email: "fan@nhs.uk",
@@ -22,7 +30,7 @@ exports.user3 ={
   role: "STEP2"
 }
 
-exports.user4 ={
+exports.user5 = {
   first_name: "chong",
   last_name: "Yang",
   email: "yang@nhs.uk",

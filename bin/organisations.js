@@ -1,4 +1,16 @@
 exports.org1 = {
+  role: "ADMIN",
+  name: "ADMIN",
+  address1: "ADMIN",
+  address2: "ADMIN",
+  postcode: "ADMIN",
+  description: "ADMIN",
+  link: "ucl.nhs.gov.uk",
+  email: "ucl@nhs.gov.uk",
+  telephone: "0355998998"
+}
+
+exports.org2 = {
   role: "TRUST",
   name: "University College Hospitals Trust Ltd.",
   address1: "13 Gower Street",
@@ -10,7 +22,7 @@ exports.org1 = {
   telephone: "0355998998"
 }
 
-exports.org2 = {
+exports.org3 = {
   role: "SERVICE",
   name: "University College Hospital Mental Health Clinic",
   address1: "13 Gower Street",

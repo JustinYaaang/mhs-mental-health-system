@@ -1,20 +1,5 @@
 async function initDB() {
-  var UserModel = require('../models/user')
-  var bcrypt = require('bcryptjs');
   var enforcer = await require('../config/casbin');
-
-  // add admin user
-  var models = new UserModel({
-    role: 'ADMIN',
-    email: 'uk.nhs.noreply@gmail.com',
-    password: '1234',
-    first_name: 'Joseph',
-    last_name: 'Connor'
-  });
-  models.save(async function(err) {
-    await enforcer.addGroupingPolicy(models.id, "ADMIN");
-    await enforcer.addPolicy(models.id, "users", models.id, "(GET)|(POST)|(PUT)|(DELETE)");
-  });
 
   // questionnaires group
   await enforcer.addGroupingPolicy("FORM1", "QUESTIONNAIRE");
@@ -45,7 +30,7 @@ async function initDB() {
   await enforcer.addPolicy("STEP3", "patientanswers", "FORM2ANSWER", "(GET)");
 
   // patients
-  await enforcer.addPolicy("PATIENT", "questionnaires", "FORM1", "GET");
+  await enforcer.addPolicy("PATIENT", "questionnaires", "FORM1", "(GET)");
 }
 
 initDB();

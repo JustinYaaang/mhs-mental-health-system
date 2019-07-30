@@ -1,3 +1,5 @@
+var UserModel = require('../models/user')
+
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
@@ -20,11 +22,12 @@ exports.index = async (req, res, next) => {
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "organisations", req.body.role, req.method)) {
-    UserModel.find({
-      _id: req.jwt.id
+    UserModel.findOne({
+      id: req.jwt.id
     }).exec(function(err, models) {
       if (err)
         res.send(err);
+      console.log(models);
       req.body.organisation_id = models.organisation_id;
     });
   } else {
@@ -39,10 +42,9 @@ exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   console.log("adding", req.models, " <= organisationAuth");
   await enforcer.addGroupingPolicy(req.models.id, req.models.role);
-  await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
-  await enforcer.addPolicy(req.models.organisation_id, "users", req.models.id, "(GET)|(PUT)");
-  await enforcer.addPolicy(req.models.id, "users", req.models.id, "GET");
-  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET");
+  // await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
+  await enforcer.addPolicy(req.models.organisation_id, "organisations", req.models.id, "(GET)");
+  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "(GET)");
   res.status(200).send({
     message: 'add successfully',
   });

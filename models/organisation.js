@@ -3,9 +3,9 @@ var mongoose = require('../config/mongoose');
 var Schema = mongoose.Schema;
 
 var OrganisationSchema = new Schema({
-  role:{
+  role: {
     type: 'String',
-    enum: ['TRUST', 'SERVICE']
+    enum: ['ADMIN', 'TRUST', 'SERVICE']
   },
   name: {
     type: 'String',
@@ -40,9 +40,9 @@ var OrganisationSchema = new Schema({
     required: true
   },
   organisation_id: {
-		type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'OrganisationModel',
-	},
+  },
 });
 
 
