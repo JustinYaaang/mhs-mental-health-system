@@ -1,10 +1,13 @@
+var UserModel = require('../models/user')
+
 exports.authenticate = async (req, res, next) => {
-  var enforcer = await require('../config/casbin');
-  var role = []
-  await enforcer.getRolesForUser(String(req.models._id)).then((roles) => {
-    role = roles;
-  });
-  req.role = role;
+  // var enforcer = await require('../config/casbin');
+  // var role = []
+  // await enforcer.getImplicitRolesForUser(String(req.models._id)).then((roles) => {
+  //   role = roles;
+  // });
+  // req.role = role;
+  req.role = req.models.role;
   next();
 }
 

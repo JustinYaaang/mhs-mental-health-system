@@ -21,7 +21,7 @@ exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "organisations", req.body.role, req.method)) {
     UserModel.find({
-      id: req.jwt.id
+      _id: req.jwt.id
     }).exec(function(err, models) {
       if (err)
         res.send(err);
