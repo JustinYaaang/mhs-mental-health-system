@@ -51,6 +51,11 @@ PatientSchema.pre('save', function(next) {
   next();
 });
 
+PatientSchema.pre('findOneAndUpdate', function(next) {
+  var salt = bcrypt.genSaltSync(saltRounds);
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
 
 var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patients');
 module.exports = PatientModel;

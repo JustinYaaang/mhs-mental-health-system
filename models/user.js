@@ -41,6 +41,12 @@ UserSchema.pre('save', function(next) {
   next();
 });
 
+UserSchema.pre('findOneAndUpdate', function(next) {
+  var salt = bcrypt.genSaltSync(saltRounds);
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
+
 // bcrypt.compareSync(req.body.password, userInfo.password)
 
 var UserModel = mongoose.model('UserModel', UserSchema, 'users');
