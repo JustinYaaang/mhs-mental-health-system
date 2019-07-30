@@ -4,6 +4,7 @@ exports.index = async (req, res, next) => {
   var result = [];
   console.log("All subjects: ", subjects, " <= questionAuth");
   for (subject of subjects) {
+
     if (await enforcer.enforce(req.jwt.id, "questionnaires", subject, req.method)) {
       if (req.jwt.id != subject) {
         result.push(subject);
@@ -21,7 +22,7 @@ exports.index = async (req, res, next) => {
 
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
-  if (await enforcer.enforce(req.jwt.id, "questionnaires", "QUESTIONNAIRE", req.method)) {} else {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.body.role, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
     });
@@ -31,10 +32,10 @@ exports.new = async (req, res, next) => {
 
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
-  await enforcer.addPolicy(req.models._id, "questionnaires", req.models._id, "GET")
-  await enforcer.addGroupingPolicy(req.models._id, "QUESTIONNAIRE");
+  await enforcer.addPolicy(String(req.models._id), "questionnaires", String(req.models._id), "GET")
+  await enforcer.addGroupingPolicy(String(req.models._id), "QUESTIONNAIRE");
   if (req.models.is_public) {
-    await enforcer.addGroupingPolicy(req.models._id, "FORM1");
+    await enforcer.addGroupingPolicy(String(req.models._id), "FORM1");
   }
   res.status(200).send({
     message: 'Added',
