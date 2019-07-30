@@ -40,7 +40,8 @@ exports.add = async (req, res) => {
   console.log("adding", req.models, " <= organisationAuth");
   await enforcer.addGroupingPolicy(req.models.id, req.models.role);
   await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
-  await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)");
+  await enforcer.addPolicy(req.models.organisation_id, "users", req.models.id, "(GET)|(PUT)");
+  await enforcer.addPolicy(req.models.id, "users", req.models.id, "GET");
   await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "GET");
   res.status(200).send({
     message: 'add successfully',

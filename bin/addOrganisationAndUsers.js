@@ -8,7 +8,8 @@ async function add_organisation(model) {
   var enforcer = await require('../config/casbin');
   await enforcer.addGroupingPolicy(model._id, model.role);
   await enforcer.addGroupingPolicy(model._id, model.organisation_id);
-  await enforcer.addPolicy(model.id, "users", model.id, "(GET)|(PUT)");
+  await enforcer.addPolicy(model._id, "users", model._id, "GET");
+  await enforcer.addPolicy(model.organisation_id, "users", model._id, "(GET)|(PUT)");
   await enforcer.addPolicy(model._id, "organisations", model._id, "GET");
 }
 
@@ -24,9 +25,9 @@ org1.save(async (err) => {
   if(err)
     console.log(err);
   await add_organisation(org1)
-  organisations.org2.organisation_id = org1._id;
 });
 
+organisations.org2.organisation_id = org1._id;
 var org2 = new OrganisationModel(organisations.org2);
 org2.save(async (err) => {
   if(err)

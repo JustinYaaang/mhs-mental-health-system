@@ -30,7 +30,7 @@ async function initDB() {
   await enforcer.addPolicy("ADMIN", "questionnaires", "QUESTIONNAIRE", "(GET)|(POST)|(PUT)|(DELETE)");
 
   // The rights of trusts managers
-  await enforcer.addPolicy("TRUSTMANAGER", "organisation", "SERVICE", "(GET)|(POST)|(PUT)|(DELETE)");
+  await enforcer.addPolicy("TRUSTMANAGER", "organisations", "SERVICE", "(GET)|(POST)|(PUT)|(DELETE)");
   await enforcer.addPolicy("TRUSTMANAGER", "users", "SERVICEMANAGER", "(GET)|(POST)|(PUT)|(DELETE)");
   await enforcer.addPolicy("TRUSTMANAGER", "questionnaires", "QUESTIONNAIRE", "(GET)");
 
