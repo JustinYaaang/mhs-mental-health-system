@@ -14,4 +14,6 @@ router.route('/:id')
   .put(jwtAuth.verify, organisationAuth.update, organisationController.update)
   .delete(jwtAuth.verify, organisationAuth.delete, organisationController.delete);
 
+
+
 module.exports = router;
