@@ -37,7 +37,7 @@ exports.new = async (req, res, next) => {
 
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
-  console.log("adding" + req.models " <= organisationAuth");
+  console.log("adding", req.models, " <= organisationAuth");
   await enforcer.addGroupingPolicy(req.models.id, req.models.role);
   await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
   await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)");
