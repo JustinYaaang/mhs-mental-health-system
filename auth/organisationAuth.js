@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var UserModel = require('../models/user')
 
 exports.index = async (req, res, next) => {
@@ -7,28 +8,36 @@ exports.index = async (req, res, next) => {
   var result = [];
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "organisations", subject, req.method)) {
-      result.push(subject);
+      if (mongoose.Types.ObjectId.isValid(subject)) {
+        result.push(subject);
+      }
     }
   }
-  req.query = {
-    _id: {
-      $in: result
-    }
-  };
   console.log(req.jwt.id, req.method, result, " <= organisationAuth");
+  // Object.assign(obj1, obj2);
+  var model = await UserModel.findOne({
+    _id: req.jwt.id
+  });
+  req.query = {
+    $and: [{
+      _id: {
+        $in: result
+      }
+    }, {
+      organisation_id: model.organisation_id
+    }]
+  };
+  console.log(req.query);
   next();
 }
 
 exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "organisations", req.body.role, req.method)) {
-    UserModel.findOne({
-      id: req.jwt.id
-    }).exec(function(err, models) {
-      if (err)
-        res.send(err);
-      req.body.organisation_id = models.organisation_id;
+    var model = await UserModel.findOne({
+      _id: req.jwt.id
     });
+    req.body.organisation_id = model.organisation_id;
   } else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -40,10 +49,8 @@ exports.new = async (req, res, next) => {
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   console.log("adding", req.models, " <= organisationAuth");
-  await enforcer.addGroupingPolicy(req.models.id, req.models.role);
-  // await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
-  await enforcer.addPolicy(req.models.organisation_id, "organisations", req.models.id, "(GET)");
-  await enforcer.addPolicy(req.models.id, "organisations", req.models.id, "(GET)");
+  await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), String(req.models.role));
+  await enforcer.addPolicy(String(req.models._id), "organisations", String(req.models._id), "(GET)");
   res.status(200).send({
     message: 'add successfully',
   });

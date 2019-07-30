@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var UserModel = require('../models/user');
+var OrganisationModel = require('../models/organisation');
+
+
 exports.authenticate = async (req, res, next) => {
   // var enforcer = await require('../config/casbin');
   // var role = []
@@ -18,15 +23,34 @@ exports.index = async (req, res, next) => {
   console.log("All subjects", subjects, " <= userAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "users", subject, req.method)) {
-      if (subject != req.jwt.id && "ADMIN" != subject && "TRUSTMANAGER" != subject && "SERVICEMANAGER" != subject && "STEP2" != subject && "STEP3" != subject) {
+      if (mongoose.Types.ObjectId.isValid(subject)){
         result.push(subject);
       }
     }
   }
+  var model = await UserModel.findOne({
+    _id: req.jwt.id
+  });
+
+  var models = await OrganisationModel.find({
+    organisation_id: model.organisation_id
+  });
+
+  var organisation_ids = [];
+  for (model of models) {
+    organisation_ids.push(model._id);
+  }
+
   req.query = {
-    _id: {
-      $in: result
-    }
+    $and: [{
+      _id: {
+        $in: result
+      }
+    }, {
+      organisation_id: {
+        $in: organisation_ids
+      }
+    }]
   };
   console.log(req.jwt.id, req.method, result, " <= userAuth");
   next();
@@ -46,10 +70,8 @@ exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   var role = []
   console.log("adding", req.models, " <= userAuth");
-  await enforcer.addGroupingPolicy(req.models.id, req.models.role);
-  // await enforcer.addGroupingPolicy(req.models.id, req.models.organisation_id);
-  await enforcer.addPolicy(req.models.organisation_id, "users", req.models.id, "(GET)");
-  await enforcer.addPolicy(req.models.id, "users", req.models.id, "(GET)|(PUT)");
+  await enforcer.addNamedGroupingPolicy("g", String(req.models._id), String(req.models.role));
+  await enforcer.addPolicy(String(req.models._id), "users", String(req.models._id), "(GET)|(PUT)");
   res.status(200).send({
     message: 'add successfully',
   });

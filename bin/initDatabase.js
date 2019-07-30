@@ -1,13 +1,16 @@
 async function initDB() {
+  var mongoose = require('../config/mongoose');
+  mongoose.connection.dropCollection('casbin_rule', (err, result) => {});
+
   var enforcer = await require('../config/casbin');
 
   // questionnaires group
-  await enforcer.addGroupingPolicy("FORM1", "QUESTIONNAIRE");
-  await enforcer.addGroupingPolicy("FORM2", "QUESTIONNAIRE");
+  await enforcer.addNamedGroupingPolicy("g2", "FORM1", "QUESTIONNAIRE");
+  await enforcer.addNamedGroupingPolicy("g2", "FORM2", "QUESTIONNAIRE");
 
   // answers group
-  await enforcer.addGroupingPolicy("FORM1ANSWER", "ANSWER");
-  await enforcer.addGroupingPolicy("FORM2ANSWER", "ANSWER");
+  await enforcer.addNamedGroupingPolicy("g2", "FORM1ANSWER", "ANSWER");
+  await enforcer.addNamedGroupingPolicy("g2", "FORM2ANSWER", "ANSWER");
 
   // The rights of the admin
   await enforcer.addPolicy("ADMIN", "organisations", "TRUST", "(GET)|(POST)|(PUT)|(DELETE)");

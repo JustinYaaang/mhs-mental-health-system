@@ -1,13 +1,16 @@
+var mongoose = require('mongoose');
+
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
   console.log("All subjects: ", subjects, " <= questionAuth");
   for (subject of subjects) {
-
     if (await enforcer.enforce(req.jwt.id, "questionnaires", subject, req.method)) {
       if (req.jwt.id != subject) {
-        result.push(subject);
+        if (mongoose.Types.ObjectId.isValid(subject)){
+          result.push(subject);
+        }
       }
     }
   }

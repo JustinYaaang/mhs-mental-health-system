@@ -6,20 +6,26 @@ var users = require('./users');
 
 async function add_organisation(model) {
   var enforcer = await require('../config/casbin');
-  await enforcer.addGroupingPolicy(model._id, model.role);
-  // await enforcer.addGroupingPolicy(model._id, model.organisation_id);
-  await enforcer.addPolicy(model.organisation_id, "organisations", model._id, "(GET)");
+  await enforcer.addNamedGroupingPolicy("g2", model._id, model.role);
+  // await enforcer.addNamedGroupingPolicy("g2", model._id, model.organisation_id);
+  // await enforcer.addPolicy(model._id, "users", model._id, "(GET)");
   await enforcer.addPolicy(model._id, "organisations", model._id, "(GET)");
+
 }
 
 async function add_user(model) {
   var enforcer = await require('../config/casbin');
-  await enforcer.addGroupingPolicy(model._id, model.role);
-  // await enforcer.addGroupingPolicy(model._id, model.organisation_id);
-  await enforcer.addPolicy(model.organisation_id, "users", model._id, "(GET)");
+  await enforcer.addNamedGroupingPolicy("g", model._id, model.role);
+  // await enforcer.addNamedGroupingPolicy("g", model._id, model.organisation_id);
+  // await enforcer.addNamedGroupingPolicy("g2", model._id, model.organisation_id);
   await enforcer.addPolicy(model._id, "users", model._id, "(GET)|(PUT)");
 }
 
+var mongoose = require('../config/mongoose');
+mongoose.connection.dropCollection('organisations', (err, result) => {});
+mongoose.connection.dropCollection('users', (err, result) => {});
+
+organisations.org1.organisation_id = "5d40b46f3a918d1e641a6711"
 var org1 = new OrganisationModel(organisations.org1);
 org1.save(async (err) => {
   if (err)
