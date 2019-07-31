@@ -57,15 +57,13 @@ exports.index = function(req, res) {
 
 // Handle create contact actions
 // post: api/patientanswers
-exports.new = function(req, res) {
+exports.new = function(req, res, next) {
   var models = new PatientAnswerModel(req.body);
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
-    res.status(201).send({
-      message: 'PatientAnswer created!',
-      data: models
-    });
+    req.models = models;
+    next();
   });
 };
 
