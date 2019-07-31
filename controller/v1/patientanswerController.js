@@ -43,7 +43,6 @@ exports.index = function(req, res) {
         });
       });
   } else {
-    console.log(req.query);
     PatientAnswerModel.find(req.query).exec(function(err, models) {
       if (err)
         res.status(404).send(err);

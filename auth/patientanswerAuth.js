@@ -74,11 +74,16 @@ exports.index = async (req, res, next) => {
     };
   } else {
     req.query = {
-      _id: {
-        $in: result
-      }
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }, {
+        patient_id: req.jwt.id
+      }]
     };
   }
+  console.log(req.query, " <= patientanswerAuth");
   next();
 }
 
