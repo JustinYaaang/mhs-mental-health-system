@@ -12,7 +12,7 @@ var PatientAnswerSchema = new Schema({
       required: true
     },
     score: {
-      type: 'String',
+      type: 'Number',
       required: true
     },
     body: {

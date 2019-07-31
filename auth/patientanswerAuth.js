@@ -29,19 +29,16 @@ exports.index = async (req, res, next) => {
     });
     req.query = {
       $and: [{
-          _id: {
-            $in: result
-          }
-        }, {
-          service_id: model.organisation_id
+        _id: {
+          $in: result
         }
-        // ,
-        // {
-        //   score: {
-        //     $ltn: 7
-        //   },
-        // }
-      ]
+      }, {
+        service_id: model.organisation_id
+      }, {
+        score: {
+          $lt: 7
+        },
+      }]
     };
   } else if (role[0] == "STEP3") {
     var model = await UserModel.findOne({
@@ -50,18 +47,16 @@ exports.index = async (req, res, next) => {
 
     req.query = {
       $and: [{
-          _id: {
-            $in: result
-          }
-        }, {
-          service_id: model.organisation_id
+        _id: {
+          $in: result
         }
-        // , {
-        //   score: {
-        //     $gt: 7
-        //   },
-        // }
-      ]
+      }, {
+        service_id: model.organisation_id
+      }, {
+        score: {
+          $gt: 7
+        },
+      }]
     };
   } else if (role[0] == "SERVICEMANAGER") {
     var model = await UserModel.findOne({
