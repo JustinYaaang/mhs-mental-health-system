@@ -9,7 +9,7 @@ async function add_question(model) {
   await enforcer.addPolicy(String(model._id), "questionnaires", String(model._id), "(GET)")
   await enforcer.addNamedGroupingPolicy("g2", String(model._id), "QUESTIONNAIRE");
   if (model.is_public) {
-    await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), "FORM1");
+    await enforcer.addNamedGroupingPolicy("g2", String(model._id), "FORM1");
   }
 }
 
@@ -19,7 +19,6 @@ async function add_answer(model) {
   await enforcer.addPolicy(String(model.patient_id), "patientanswers", String(model._id), "(GET)");
   await enforcer.addPolicy(String(model._id), "patientanswers", String(model._id), "(GET)")
 }
-
 
 async function create() {
   var mongoose = require('../config/mongoose');
