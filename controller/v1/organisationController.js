@@ -3,7 +3,7 @@ var OrganisationModel = require('../../models/organisation')
 // Handle index actions
 // get: api/Organisations
 exports.index = function(req, res) {
-  OrganisationModel.find(req.query).exec(function(err, models) {
+  OrganisationModel.find(req.query).select(req.field).exec(function(err, models) {
     if (err)
       res.send(err);
     res.send({
@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 
 // Handle create contact actions
 // post: api/Organisations
-exports.new = function(req, res) {
+exports.new = function(req, res, next) {
   var models = new OrganisationModel(req.body);
   models.save(function(err) {
     if (err)

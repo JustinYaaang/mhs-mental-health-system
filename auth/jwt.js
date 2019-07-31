@@ -31,7 +31,6 @@ exports.verify = function(req, res, next) {
       } else {
         // if everything is good, save to request for use in other routes
         req.jwt = decoded;
-        // console.log(req.jwt);
         next();
       }
     });

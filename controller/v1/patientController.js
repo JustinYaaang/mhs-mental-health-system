@@ -36,7 +36,7 @@ exports.register = function(req, res, next) {
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
-    req.model = models;
+    req.models = models;
     next();
   });
 }

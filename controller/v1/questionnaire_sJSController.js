@@ -4,7 +4,7 @@ var Questionnaire_sJSModel = require('../../models/questionnaire_sJS')
 // Handle index actions
 // get: api/questionnaire_sJS
 exports.index = function (req, res) {
-  Questionnaire_sJSModel.find(req.query).select('title description status').exec(function (err, models){
+  Questionnaire_sJSModel.find(req.query).exec(function (err, models){
     if (err)
       res.status(404).send(err);
     res.status(200).send({
@@ -16,15 +16,13 @@ exports.index = function (req, res) {
 
 // Handles the create new questionnaire action
 // post: api/questionnaire_sJS
-exports.new = function (req, res) {
+exports.new = function (req, res, next) {
   var models = new Questionnaire_sJSModel(req.body);
   models.save(function (err) {
     if (err)
       res.status(404).send(err);
-    res.status(201).send({
-      message: 'Questionnaire created!',
-      data: models
-    });
+    req.models = models;
+    next();
   });
 };
 

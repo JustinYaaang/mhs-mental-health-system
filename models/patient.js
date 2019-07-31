@@ -6,11 +6,15 @@ var uuidv1 = require('uuid/v1');
 var Schema = mongoose.Schema;
 
 var PatientSchema = new Schema({
+  role: {
+    type: 'String',
+    default: 'PATIENT'
+  },
   email: {
     type: 'String',
     required: true
   },
-  password:{
+  password: {
     type: 'String',
     required: true
   },
@@ -24,10 +28,11 @@ var PatientSchema = new Schema({
   },
   postcode: {
     type: 'String',
+    required: true
   },
-  organisation_id: {
+  service_id: {
     type: Schema.Types.ObjectId,
-    ref: 'PatientModel',
+    ref: 'OrganisationModel',
   },
   code: {
     type: 'String',
@@ -35,11 +40,11 @@ var PatientSchema = new Schema({
   },
   expiration_data: {
     type: Date,
-    default: new Date(+new Date() + 1*24*60*60*1000)
+    default: new Date(+new Date() + 1 * 24 * 60 * 60 * 1000)
   },
   is_live: {
     type: Boolean,
-    default: false
+    default: true
   }
 });
 
@@ -50,6 +55,11 @@ PatientSchema.pre('save', function(next) {
   next();
 });
 
+PatientSchema.pre('findOneAndUpdate', function(next) {
+  var salt = bcrypt.genSaltSync(saltRounds);
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
 
 var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patients');
 module.exports = PatientModel;

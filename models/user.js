@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
   role: {
     type: 'String',
-    enum: ['ADMIN', 'TRUSTMANAGER', 'SERVICEMANAGER']
+    enum: ['ADMIN', 'TRUSTMANAGER', 'SERVICEMANAGER', 'STEP2', 'STEP3']
   },
   email: {
     type: 'String',
@@ -30,12 +30,18 @@ var UserSchema = new Schema({
   },
   organisation_id: {
     type: Schema.Types.ObjectId,
-    ref: 'PatientModel',
+    ref: 'OrganisationModel',
   }
 });
 
 // hash user password before saving into database
 UserSchema.pre('save', function(next) {
+  var salt = bcrypt.genSaltSync(saltRounds);
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
+
+UserSchema.pre('findOneAndUpdate', function(next) {
   var salt = bcrypt.genSaltSync(saltRounds);
   this.password = bcrypt.hashSync(this.password, salt);
   next();

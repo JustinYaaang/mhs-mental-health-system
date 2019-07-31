@@ -3,33 +3,41 @@ var mongoose = require('../config/mongoose');
 var Schema = mongoose.Schema;
 
 var PatientAnswerSchema = new Schema({
-    questionnaire_id: {
-      type: Schema.Types.ObjectId,
-      ref: 'Questionnaire_sJSModel',
-      required: true
-    }, //questionnaire id , questionnaire name, patient name, score,timestamp
-    title: { //questionnaire's title
+    role: {
+      type: 'String',
+      enum: ['FORM1ANSWER', 'FORM2ANSWER']
+    },
+    title: {
       type: 'String',
       required: true
     },
-    patient_name: { //patient's name TODO change to NHS number
-      type: 'String',
+    score: {
+      type: 'Number',
       required: true
     },
-    score: { //questionnaire's score
-      type: 'String',
-      required: true
-    },
-    //questionnaire's answers
     body: {
       type: 'String',
       required: true
     },
-    //questionnaire's body
+    status:{
+      type: 'String',
+      enum: ['PENDING', 'RESOLVED'],
+      default: 'PENDING'
+    },
     questionnaireBody: {
       type: 'String',
       required: true
-    }
+    },
+    patient_id: {
+  		type: Schema.Types.ObjectId,
+      ref: 'PatientModel',
+      required: true
+  	},
+    service_id: {
+  		type: Schema.Types.ObjectId,
+      ref: 'OrganisationModel',
+      required: true
+  	},
   },
   //timestamp that the questionnaire was completed
   {
