@@ -36,8 +36,12 @@ exports.index = async (req, res, next) => {
   });
 
   var organisation_ids = [];
-  for (model of models) {
-    organisation_ids.push(model._id);
+  if ('organisation_id' in req.query){
+    organisation_ids.push(req.query.organisation_id)
+  }else{
+    for (model of models) {
+      organisation_ids.push(model._id);
+    }
   }
 
   req.query = {
