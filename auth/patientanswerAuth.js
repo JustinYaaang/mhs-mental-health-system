@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var UserModel = require('../models/user');
 var OrganisationModel = require('../models/organisation');
+var PatientModel = require('../models/patient')
 
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
@@ -73,11 +74,16 @@ exports.index = async (req, res, next) => {
     };
   } else {
     req.query = {
-      _id: {
-        $in: result
-      }
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }, {
+        patient_id: req.jwt.id
+      }]
     };
   }
+  console.log(req.query, " <= patientanswerAuth");
   next();
 }
 
@@ -85,6 +91,10 @@ exports.new = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "patientanswers", req.body.role, req.method)) {
     req.body.patient_id = req.jwt.id;
+    var model = await PatientModel.findOne({
+      _id: req.jwt.id
+    });
+    req.body.service_id = model.service_id;
   } else {
     res.status(401).send({
       message: 'Not Allow!',
