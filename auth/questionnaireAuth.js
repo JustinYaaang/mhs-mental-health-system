@@ -58,9 +58,9 @@ exports.new = async (req, res, next) => {
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   await enforcer.addPolicy(String(req.models._id), "questionnaires", String(req.models._id), "(GET)")
-  await enforcer.addGroupingPolicy(String(req.models._id), "QUESTIONNAIRE");
+  await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), "QUESTIONNAIRE");
   if (req.models.is_public) {
-    await enforcer.addGroupingPolicy(String(req.models._id), "FORM1");
+    await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), "FORM1");
   }
   res.status(200).send({
     message: 'Added',

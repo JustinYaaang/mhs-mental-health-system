@@ -3,56 +3,56 @@ var PatientAnswerModel = require('../../models/patientanswer')
 // Handle index actions
 // get: api/patientanswers
 exports.index = function(req, res) {
-  if (req.query.startDate || req.query.endDate) {
-    var query = {};
-    query.createdAt = {};
-    query.createdAt.$gte = new Date(req.query.startDate);
-    query.createdAt.$lt = new Date(req.query.endDate);
-  }
-
-  if (req.query.groupby == 'date') {
-    PatientAnswerModel.aggregate()
-      .match(query)
-      .project({
-        'dow': {
-          '$dayOfWeek': '$createdAt'
-        },
-        'date': {
-          '$dateToString': {
-            'format': '%Y-%m-%d',
-            'date': '$createdAt'
-          }
-        }
-      })
-      .group({
-        _id: '$date',
-        dayOfWeek: {
-          $avg: '$dow'
-        },
-        count: {
-          '$sum': 1
-        }
-      }).sort({
-        _id: 1
-      }).exec(function(err, results) {
-        if (err)
-          res.status(404).send(err);
-        res.status(200).send({
-          message: 'PatientAnswer retrieved successfully',
-          data: results
-        });
-      });
-  } else {
-
-    PatientAnswerModel.find(req.query).exec(function(err, models) {
-      if (err)
-        res.status(404).send(err);
-      res.status(200).send({
-        message: 'PatientAnswer retrieved successfully',
-        data: models
-      });
+  // if (req.query.startDate || req.query.endDate) {
+  //   var query = {};
+  //   query.createdAt = {};
+  //   query.createdAt.$gte = new Date(req.query.startDate);
+  //   query.createdAt.$lt = new Date(req.query.endDate);
+  // }
+  //
+  // if (req.query.groupby == 'date') {
+  //   PatientAnswerModel.aggregate()
+  //     .match(query)
+  //     .project({
+  //       'dow': {
+  //         '$dayOfWeek': '$createdAt'
+  //       },
+  //       'date': {
+  //         '$dateToString': {
+  //           'format': '%Y-%m-%d',
+  //           'date': '$createdAt'
+  //         }
+  //       }
+  //     })
+  //     .group({
+  //       _id: '$date',
+  //       dayOfWeek: {
+  //         $avg: '$dow'
+  //       },
+  //       count: {
+  //         '$sum': 1
+  //       }
+  //     }).sort({
+  //       _id: 1
+  //     }).exec(function(err, results) {
+  //       if (err)
+  //         res.status(404).send(err);
+  //       res.status(200).send({
+  //         message: 'PatientAnswer retrieved successfully',
+  //         data: results
+  //       });
+  //     });
+  // } else {
+  console.log(req.query);
+  PatientAnswerModel.find(req.query).exec(function(err, models) {
+    if (err)
+      res.status(404).send(err);
+    res.status(200).send({
+      message: 'PatientAnswer retrieved successfully',
+      data: models
     });
-  }
+  });
+  // }
 };
 
 // Handle create contact actions

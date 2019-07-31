@@ -21,7 +21,8 @@ var PatientAnswerSchema = new Schema({
     },
     status:{
       type: 'String',
-      enum: ['PENDING', 'RESOLVED']
+      enum: ['PENDING', 'RESOLVED'],
+      default: 'PENDING'
     },
     questionnaireBody: {
       type: 'String',

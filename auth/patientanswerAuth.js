@@ -29,16 +29,19 @@ exports.index = async (req, res, next) => {
     });
     req.query = {
       $and: [{
-        _id: {
-          $in: result
+          _id: {
+            $in: result
+          }
+        }, {
+          service_id: model.organisation_id
         }
-      }, {
-        service_id: model.organisation_id
-      }, {
-        score: {
-          $ltn: 7
-        },
-      }]
+        // ,
+        // {
+        //   score: {
+        //     $ltn: 7
+        //   },
+        // }
+      ]
     };
   } else if (role[0] == "STEP3") {
     var model = await UserModel.findOne({
@@ -47,16 +50,18 @@ exports.index = async (req, res, next) => {
 
     req.query = {
       $and: [{
-        _id: {
-          $in: result
+          _id: {
+            $in: result
+          }
+        }, {
+          service_id: model.organisation_id
         }
-      }, {
-        service_id: model.organisation_id
-      }, {
-        score: {
-          $gt: 7
-        },
-      }]
+        // , {
+        //   score: {
+        //     $gt: 7
+        //   },
+        // }
+      ]
     };
   } else if (role[0] == "SERVICEMANAGER") {
     var model = await UserModel.findOne({
@@ -95,7 +100,7 @@ exports.new = async (req, res, next) => {
 
 exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
-  await enforcer.addGroupingPolicy("g2", req.models._id, req.models.role);
+  await enforcer.addNamedGroupingPolicy("g2", req.models._id, req.models.role);
   await enforcer.addPolicy(String(req.jwt.id), "patientanswers", String(req.models._id), "(GET)");
   await enforcer.addPolicy(String(req.models._id), "patientanswers", String(req.models._id), "(GET)")
   res.status(200).send({
