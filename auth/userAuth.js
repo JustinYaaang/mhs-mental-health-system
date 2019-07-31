@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var UserModel = require('../models/user');
 var OrganisationModel = require('../models/organisation');
 
-
 exports.authenticate = async (req, res, next) => {
   // var enforcer = await require('../config/casbin');
   // var role = []
@@ -20,7 +19,7 @@ exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
   var result = [];
-  console.log("All subjects", subjects, " <= userAuth");
+  // console.log("All subjects", subjects, " <= userAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "users", subject, req.method)) {
       if (mongoose.Types.ObjectId.isValid(subject)){
@@ -79,6 +78,9 @@ exports.add = async (req, res) => {
 
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    req.params.id = req.jwt.id;
+  }
   if (await enforcer.enforce(req.jwt.id, "users", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',
@@ -88,6 +90,10 @@ exports.view = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
+  var enforcer = await require('../config/casbin');
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    req.params.id = req.jwt.id;
+  }
   if (await enforcer.enforce(req.jwt.id, "users", req.params.id, req.method)) {} else {
     res.status(401).send({
       message: 'Not Allow!',

@@ -12,10 +12,6 @@ var Questionnaire_sJS = new Schema({
     type: 'Boolean',
     required: true
   },
-  is_public: {
-    type: 'Boolean',
-    required: true
-  },
   title: {
     type: 'String',
     required: true

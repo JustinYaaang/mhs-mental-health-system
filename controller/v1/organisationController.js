@@ -3,7 +3,7 @@ var OrganisationModel = require('../../models/organisation')
 // Handle index actions
 // get: api/Organisations
 exports.index = function(req, res) {
-  OrganisationModel.find(req.query).exec(function(err, models) {
+  OrganisationModel.find(req.query).select(req.field).exec(function(err, models) {
     if (err)
       res.send(err);
     res.send({

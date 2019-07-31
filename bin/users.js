@@ -37,3 +37,11 @@ exports.user5 = {
   password: "1234",
   role: "STEP3"
 }
+
+exports.map = {
+  first_name: "map",
+  last_name: "map",
+  email: "map@nhs.uk",
+  password: "1234",
+  role: "MAP"
+}

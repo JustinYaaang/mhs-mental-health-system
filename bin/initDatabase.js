@@ -27,13 +27,20 @@ async function initDB() {
   await enforcer.addPolicy("SERVICEMANAGER", "users", "STEP3", "(GET)|(POST)|(PUT)|(DELETE)");
   await enforcer.addPolicy("SERVICEMANAGER", "questionnaires", "QUESTIONNAIRE", "(GET)");
   await enforcer.addPolicy("SERVICEMANAGER", "patientanswers", "FORM1ANSWER", "(GET)");
+
   await enforcer.addPolicy("STEP2", "questionnaires", "QUESTIONNAIRE", "(GET)");
   await enforcer.addPolicy("STEP2", "patientanswers", "FORM2ANSWER", "(GET)");
+  await enforcer.addPolicy("STEP2", "patients", "PATIENT", "(GET)");
+
   await enforcer.addPolicy("STEP3", "questionnaires", "QUESTIONNAIRE", "(GET)");
   await enforcer.addPolicy("STEP3", "patientanswers", "FORM2ANSWER", "(GET)");
+  await enforcer.addPolicy("STEP3", "patients", "PATIENT", "(GET)");
 
   // patients
   await enforcer.addPolicy("PATIENT", "questionnaires", "FORM1", "(GET)");
+
+  // MAP service
+  await enforcer.addPolicy("MAP", "organisations", "SERVICE", "(GET)");
 }
 
 initDB();

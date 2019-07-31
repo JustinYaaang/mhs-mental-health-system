@@ -3,7 +3,6 @@ var UserModel = require('../models/user')
 var organisations = require('./organisations');
 var users = require('./users');
 
-
 async function add_organisation(model) {
   var enforcer = await require('../config/casbin');
   await enforcer.addNamedGroupingPolicy("g2", model._id, model.role);
@@ -79,4 +78,10 @@ users.user5.organisation_id = org3._id;
 var user5 = new UserModel(users.user5);
 user5.save(async (err) => {
   await add_user(user5)
+});
+
+users.map.organisation_id = "5d40b46f3a918d1e641a6712";
+var map = new UserModel(users.map);
+map.save(async (err) => {
+  await add_user(map)
 });

@@ -3,10 +3,9 @@ var mongoose = require('../config/mongoose');
 var Schema = mongoose.Schema;
 
 var PatientAnswerSchema = new Schema({
-    questionnaire_id: {
-      type: Schema.Types.ObjectId,
-      ref: 'Questionnaire_sJSModel',
-      required: true
+    role: {
+      type: 'String',
+      enum: ['FORM1ANSWER', 'FORM2ANSWER']
     },
     title: {
       type: 'String',
@@ -31,6 +30,12 @@ var PatientAnswerSchema = new Schema({
     patient_id: {
   		type: Schema.Types.ObjectId,
       ref: 'PatientModel',
+      required: true
+  	},
+    service_id: {
+  		type: Schema.Types.ObjectId,
+      ref: 'OrganisationModel',
+      required: true
   	},
   },
   //timestamp that the questionnaire was completed

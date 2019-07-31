@@ -5,15 +5,13 @@ var organisationAuth = require('../../auth/organisationAuth');
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/')
-  .get(jwtAuth.verify, asyncMiddleware(organisationAuth.index), organisationController.index)
-  .post(jwtAuth.verify, asyncMiddleware(organisationAuth.new), organisationController.new, organisationAuth.add);
+  .get(jwtAuth.verify, organisationAuth.index, organisationController.index)
+  .post(jwtAuth.verify, organisationAuth.new, organisationController.new, organisationAuth.add);
 
 router.route('/:id')
   .get(jwtAuth.verify, organisationAuth.view, organisationController.view)
   .patch(jwtAuth.verify, organisationAuth.update, organisationController.update)
   .put(jwtAuth.verify, organisationAuth.update, organisationController.update)
   .delete(jwtAuth.verify, organisationAuth.delete, organisationController.delete);
-
-
 
 module.exports = router;
