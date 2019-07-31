@@ -38,6 +38,8 @@ async function initDB() {
 
   // patients
   await enforcer.addPolicy("PATIENT", "questionnaires", "FORM1", "(GET)");
+  await enforcer.addPolicy("PATIENT", "patientanswers", "FORM1ANSWER", "(GET)|(POST)");
+  await enforcer.addPolicy("PATIENT", "patientanswers", "FORM2ANSWER", "(GET)|(POST)");
 
   // MAP service
   await enforcer.addPolicy("MAP", "organisations", "SERVICE", "(GET)");
