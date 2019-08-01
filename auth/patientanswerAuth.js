@@ -28,7 +28,7 @@ exports.index = async (req, res, next) => {
     var model = await UserModel.findOne({
       _id: req.jwt.id
     });
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
@@ -46,7 +46,7 @@ exports.index = async (req, res, next) => {
       _id: req.jwt.id
     });
 
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
@@ -63,7 +63,7 @@ exports.index = async (req, res, next) => {
     var model = await UserModel.findOne({
       _id: req.jwt.id
     });
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
@@ -73,7 +73,7 @@ exports.index = async (req, res, next) => {
       }]
     };
   } else {
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
