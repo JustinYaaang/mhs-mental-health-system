@@ -12,6 +12,7 @@ exports.authenticate = async (req, res, next) => {
   // // };
   // req.role = role;
   req.role = req.models.role;
+  req.organisation_id = req.models.organisation_id;
   next();
 }
 
@@ -22,7 +23,7 @@ exports.index = async (req, res, next) => {
   // console.log("All subjects", subjects, " <= userAuth");
   for (subject of subjects) {
     if (await enforcer.enforce(req.jwt.id, "users", subject, req.method)) {
-      if (mongoose.Types.ObjectId.isValid(subject)){
+      if (mongoose.Types.ObjectId.isValid(subject)) {
         result.push(subject);
       }
     }
@@ -36,9 +37,9 @@ exports.index = async (req, res, next) => {
   });
 
   var organisation_ids = [];
-  if ('organisation_id' in req.query){
+  if ('organisation_id' in req.query) {
     organisation_ids.push(req.query.organisation_id)
-  }else{
+  } else {
     for (model of models) {
       organisation_ids.push(model._id);
     }

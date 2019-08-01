@@ -11,7 +11,8 @@ exports.generate = function(req, res, next) {
   return res.status(200).send({
     message: "token sent",
     token: token,
-    role: req.role
+    role: req.role,
+    organisation_id: req.organisation_id
   });
 }
 
