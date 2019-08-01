@@ -9,9 +9,8 @@ exports.index = function(req, res) {
     var createdAt = {};
     createdAt.$gte = new Date(req.query.startDate);
     createdAt.$lt = new Date(req.query.endDate);
-    query.$and.push(createdAt)
+    query.$and.push({createdAt:createdAt})
   }
-
   if (req.query.groupby == 'date') {
     PatientAnswerModel.aggregate()
       .match(query)
@@ -40,7 +39,7 @@ exports.index = function(req, res) {
         if (err)
           res.status(404).send(err);
         res.status(200).send({
-          message: 'PatientAnswer retrieved successfully',
+          message: 'PatientAnswer groupby retrieved successfully',
           data: results
         });
       });
