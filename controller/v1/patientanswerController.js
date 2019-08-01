@@ -5,7 +5,7 @@ var PatientAnswerModel = require('../../models/patientanswer')
 exports.index = function(req, res) {
   var query = {};
   if (req.query.startDate || req.query.endDate) {
-    query.$and = req.newquery;
+    query.$and = req.newquery.$and;
     var createdAt = {};
     createdAt.$gte = new Date(req.query.startDate);
     createdAt.$lt = new Date(req.query.endDate);
