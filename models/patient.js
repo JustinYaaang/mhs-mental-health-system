@@ -26,6 +26,9 @@ var PatientSchema = new Schema({
     type: 'String',
     required: true
   },
+  telephone: {
+    type: 'String',
+  },
   postcode: {
     type: 'String',
     required: true
