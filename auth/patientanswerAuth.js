@@ -78,6 +78,38 @@ exports.index = async (req, res, next) => {
         }
       }]
     };
+  } else if (role[0] == "TRUSTMANAGER") {
+    var user = await UserModel.findOne({
+      _id: req.jwt.id
+    });
+    var organisations = await OrganisationModel.find({
+      organisation_id: mongoose.Types.ObjectId(model.organisation_id)
+    });
+    var organisations_id = [];
+    for (organisation of organisations) {
+      organisations_id.push(mongoose.Types.ObjectId(organisation._id));
+    }
+    req.newquery = {
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }, {
+        service_id: {
+          $in: [mongoose.Types.ObjectId(model.organisation_id)]
+        }
+      }]
+    };
+
+  } else if (role[0] == "ADMIN") {
+    req.newquery = {
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }]
+    };
+
   } else {
     req.newquery = {
       $and: [{
