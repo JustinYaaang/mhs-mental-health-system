@@ -51,7 +51,7 @@ var PatientAnswerSchema = new Schema({
   });
 
 PatientAnswerSchema.pre('save', function(next) {
-  this.band = getBand(this.body, this.questionnaireBody.rules);
+  this.band = getBand(this.body, this.rules);
   next();
 });
 
@@ -64,7 +64,7 @@ function getBand(answerJson, rules) {
     else
       return "BLUE";
   } catch (error) {
-    return "BLUE";
+    return "UNKNOWN";
   }
 }
 
