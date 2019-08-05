@@ -28,6 +28,10 @@ var PatientAnswerSchema = new Schema({
       type: Schema.Types.Mixed,
       required: true
     },
+    rules: {
+      type: Schema.Types.Mixed,
+      required: true
+    },
     patient_id: {
       type: Schema.Types.ObjectId,
       ref: 'PatientModel',
@@ -41,6 +45,7 @@ var PatientAnswerSchema = new Schema({
     band: {
       type: 'String'
     }
+
   },
   //timestamp that the questionnaire was completed
   {
@@ -51,7 +56,7 @@ var PatientAnswerSchema = new Schema({
   });
 
 PatientAnswerSchema.pre('save', function(next) {
-  this.band = getBand(this.body, this.questionnaireBody.rules);
+  this.band = getBand(this.body, this.rules);
   next();
 });
 
@@ -64,7 +69,7 @@ function getBand(answerJson, rules) {
     else
       return "BLUE";
   } catch (error) {
-    return "BLUE";
+    return "UNKNOWN";
   }
 }
 
