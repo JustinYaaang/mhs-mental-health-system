@@ -2,7 +2,6 @@ var mongoose = require('../config/mongoose');
 
 var Schema = mongoose.Schema
 
-
 var Questionnaire_sJS = new Schema({
   role: {
     type: 'String',
@@ -26,6 +25,10 @@ var Questionnaire_sJS = new Schema({
   },
   body: {
     type: 'String',
+    required: true
+  },
+  rules: {
+    type: Schema.Types.Mixed,
     required: true
   },
 });
