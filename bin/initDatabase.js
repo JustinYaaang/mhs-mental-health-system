@@ -32,6 +32,7 @@ async function initDB() {
   await enforcer.addPolicy("SERVICEMANAGER", "questionnaires", "QUESTIONNAIRE", "(GET)");
   await enforcer.addPolicy("SERVICEMANAGER", "patientanswers", "FORM1ANSWER", "(GET)");
   await enforcer.addPolicy("SERVICEMANAGER", "patients", "PATIENT", "(GET)");
+  await enforcer.addPolicy("SERVICEMANAGER", "patientquestionnaire", "FORM2", "(GET)|(POST)|(PUT)|(DELETE)");
 
   await enforcer.addPolicy("STEP2", "questionnaires", "QUESTIONNAIRE", "(GET)");
   await enforcer.addPolicy("STEP2", "patientanswers", "FORM2ANSWER", "(GET)");

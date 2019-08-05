@@ -1,16 +1,14 @@
 var router = require('express').Router();
 var patientquestionnaireController = require('../../controller/v1/patientquestionnaireController');
 var jwtAuth = require('../../auth/jwt');
+var patientquestionnaireAuth = require('../../auth/patientquestionnaireAuth');
 var asyncMiddleware = require('../../util/asyncMiddleware')
 
 router.route('/')
-  .get(jwtAuth.verify, patientquestionnaireController.index)
-  .post(jwtAuth.verify, patientquestionnaireController.new);
+  .get(jwtAuth.verify, patientquestionnaireAuth.index, patientquestionnaireController.index)
+  .post(jwtAuth.verify, patientquestionnaireAuth.new, patientquestionnaireController.new, patientquestionnaireAuth.add);
 
 router.route('/:id')
-  .get(jwtAuth.verify, patientquestionnaireController.view)
-  .patch(jwtAuth.verify, patientquestionnaireController.update)
-  .put(jwtAuth.verify, patientquestionnaireController.update)
-  .delete(jwtAuth.verify, patientquestionnaireController.delete);
+  .delete(jwtAuth.verify, patientquestionnaireAuth.delete, patientquestionnaireController.delete, patientquestionnaireAuth.remove);
 
 module.exports = router;

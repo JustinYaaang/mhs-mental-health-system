@@ -3,7 +3,20 @@ var PatientQuestionnaireModel = require('../../models/patientquestionnaire')
 // Handle index actions
 // get: api/PatientQuestionnaires
 exports.index = function(req, res) {
-  PatientQuestionnaireModel.find(req.query).exec(function(err, models) {
+  var query = {};
+  query.$and = [];
+  query.$and.push(req.newquery._id);
+  if ('patient_id' in req.query) {
+    query.$and.push({
+      patient_id: req.query.patient_id
+    });
+  }
+  if ('questionnaire_id' in req.query) {
+    query.$and.push({
+      questionnaire_id: req.query.questionnaire_id
+    });
+  }
+  PatientQuestionnaireModel.find(query).exec(function(err, models) {
     if (err)
       res.send(err);
     res.send({
@@ -22,32 +35,6 @@ exports.new = function(req, res) {
       res.send(err);
     req.models = models;
     next();
-  });
-};
-
-// Handle view contact info
-// get: api/PatientQuestionnaires/:id
-exports.view = function(req, res) {
-  PatientQuestionnaireModel.findById(req.params.id).exec(function(err, models) {
-    if (err)
-      res.send(err);
-    res.send({
-      message: 'PatientQuestionnaire details loading..',
-      data: models
-    });
-  });
-};
-
-// Handle update contact info
-// put: api/PatientQuestionnaires/:id
-exports.update = function(req, res) {
-  PatientQuestionnaireModel.findByIdAndUpdate(req.params.id, req.body).exec(function(err, models) {
-    if (err)
-      res.status(404).send(err);
-    res.status(200).send({
-      message: 'PatientQuestionnaire Info updated',
-      data: models
-    });
   });
 };
 

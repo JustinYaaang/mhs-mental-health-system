@@ -10,8 +10,8 @@ router.route('/')
 
 router.route('/:id')
   .get(jwtAuth.verify, questionnaireAuth.view, questionnaireController.view)
-  .patch(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
-  .put(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update)
+  .patch(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update, questionnaireAuth.change)
+  .put(jwtAuth.verify, questionnaireAuth.update, questionnaireController.update, questionnaireAuth.change)
   .delete(jwtAuth.verify, questionnaireAuth.delete, questionnaireController.delete);
 
 module.exports = router;
