@@ -16,7 +16,7 @@ var PatientAnswerSchema = new Schema({
       required: true
     },
     body: {
-      type: 'String',
+      type: Schema.Types.Mixed,
       required: true
     },
     status: {
