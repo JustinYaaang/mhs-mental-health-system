@@ -1,4 +1,5 @@
 var mongoose = require('../config/mongoose');
+var UserModel = require('../models/user')
 
 var Schema = mongoose.Schema;
 
@@ -45,14 +46,14 @@ var OrganisationSchema = new Schema({
   },
 });
 
+OrganisationSchema.post('remove', function(doc) {
+  UserModel.deleteMany({
+    organisation_id: doc.organisation_id
+  }, function(err) {
+    if (err) return handleError(err);
+  });
+});
 
-// hash user NHS number before saving into database
-// PatientSchema.pre('save', function(next) {
-//   this.NHS_number = bcrypt.hashSync(this.NHS_number, saltRounds);
-//   next();
-// });
-
-// bcrypt.compareSync(req.body.password, userInfo.password)
 
 var OrganisationModel = mongoose.model('OrganisationModel', OrganisationSchema, 'organisations');
 module.exports = OrganisationModel;
