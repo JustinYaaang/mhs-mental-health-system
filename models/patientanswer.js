@@ -121,11 +121,13 @@ function getScoreForQuestion(answerJson, rules, questionName) {
   var answerType = getAnswerType(answerJson, rules, questionName);
   if (answerType === "ARRAY") {
     answers.forEach(function(answer, index) {
-      score = score + Number(answer);
+      var selectedAnswer = answer.split("_")[1];
+      score = score + Number(selectedAnswer);
     });
   } else if (answerType === "DICT") {
     for (var key in answers) {
-      score = score + Number(answers[key]);
+      var selectedAnswer = answers[key].split("_")[1];
+      score = score + Number(selectedAnswer);
     }
   }
   return score;
