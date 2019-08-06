@@ -1,5 +1,9 @@
 var mongoose = require('../config/mongoose');
+<<<<<<< HEAD
 var UserModel = require('../models/user')
+=======
+var UserModel = require('../../models/user')
+>>>>>>> aa1d757293c524854f4f33e648a9437d94aa1220
 
 var Schema = mongoose.Schema;
 
