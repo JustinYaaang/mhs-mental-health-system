@@ -12,7 +12,7 @@ exports.index = async (req, res, next) => {
     if (await enforcer.enforce(req.jwt.id, "patientanswers", subject, req.method)) {
       if (req.jwt.id != subject) {
         if (mongoose.Types.ObjectId.isValid(subject)) {
-          result.push(subject);
+          result.push(mongoose.Types.ObjectId(subject));
         }
       }
     }
@@ -28,13 +28,15 @@ exports.index = async (req, res, next) => {
     var model = await UserModel.findOne({
       _id: req.jwt.id
     });
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
         }
       }, {
-        service_id: model.organisation_id
+        service_id: {
+          $in: [mongoose.Types.ObjectId(model.organisation_id)]
+        }
       }, {
         score: {
           $lt: 7
@@ -46,13 +48,15 @@ exports.index = async (req, res, next) => {
       _id: req.jwt.id
     });
 
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
         }
       }, {
-        service_id: model.organisation_id
+        service_id: {
+          $in: [mongoose.Types.ObjectId(model.organisation_id)]
+        }
       }, {
         score: {
           $gt: 7
@@ -63,17 +67,51 @@ exports.index = async (req, res, next) => {
     var model = await UserModel.findOne({
       _id: req.jwt.id
     });
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
         }
       }, {
-        service_id: model.organisation_id
+        service_id: {
+          $in: [mongoose.Types.ObjectId(model.organisation_id)]
+        }
       }]
     };
+  } else if (role[0] == "TRUSTMANAGER") {
+    var user = await UserModel.findOne({
+      _id: req.jwt.id
+    });
+    var organisations = await OrganisationModel.find({
+      organisation_id: mongoose.Types.ObjectId(model.organisation_id)
+    });
+    var organisations_id = [];
+    for (organisation of organisations) {
+      organisations_id.push(mongoose.Types.ObjectId(organisation._id));
+    }
+    req.newquery = {
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }, {
+        service_id: {
+          $in: [mongoose.Types.ObjectId(model.organisation_id)]
+        }
+      }]
+    };
+
+  } else if (role[0] == "ADMIN") {
+    req.newquery = {
+      $and: [{
+        _id: {
+          $in: result
+        }
+      }]
+    };
+
   } else {
-    req.query = {
+    req.newquery = {
       $and: [{
         _id: {
           $in: result
@@ -83,7 +121,7 @@ exports.index = async (req, res, next) => {
       }]
     };
   }
-  console.log(req.query, " <= patientanswerAuth");
+  console.log(req.newquery, " <= patientanswerAuth");
   next();
 }
 

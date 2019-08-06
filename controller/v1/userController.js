@@ -27,7 +27,7 @@ exports.authenticate = function(req, res, next) {
 // Handle index actions
 // get: api/Users
 exports.index = function(req, res) {
-  UserModel.find(req.query).populate('organisation').exec(function(err, models) {
+  UserModel.find(req.query).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({
@@ -52,7 +52,7 @@ exports.new = function(req, res, next) {
 // Handle view contact info
 // get: api/Users/:id
 exports.view = function(req, res) {
-  UserModel.findById(req.params.id).exec(function(err, models) {
+  UserModel.findById(req.params.id).populate("organisation_id").exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     res.status(200).send({

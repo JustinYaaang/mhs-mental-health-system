@@ -86,6 +86,21 @@ exports.update = async (req, res, next) => {
   next();
 }
 
+exports.change = async (req, res, next) => {
+  if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {
+    res.status(401).send({
+      message: 'Not Allow!',
+    });
+  }
+  if (req.models.is_public) {
+    await enforcer.removeNamedGroupingPolicy("g2", String(req.models._id), "FORM1");
+  }
+  if (req.body.is_public) {
+    await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), "FORM1");
+  }
+  next();
+}
+
 exports.delete = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (await enforcer.enforce(req.jwt.id, "questionnaires", req.params.id, req.method)) {} else {

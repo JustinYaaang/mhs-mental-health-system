@@ -9,13 +9,13 @@ router.route('/authenticate')
 
 router.route('/')
   .get(jwtAuth.verify, userAuth.index, userController.index)
-  .post(jwtAuth.verify, userController.new, userAuth.add);
+  .post(jwtAuth.verify, userAuth.new, userController.new, userAuth.add);
 
 
 router.route('/:id')
-  .get(jwtAuth.verify, userController.view)
-  .patch(jwtAuth.verify, userController.update)
-  .put(jwtAuth.verify, userController.update)
-  .delete(jwtAuth.verify, userController.delete);
+  .get(jwtAuth.verify, userAuth.view, userController.view)
+  .patch(jwtAuth.verify, userAuth.update, userController.update)
+  .put(jwtAuth.verify, userAuth.update, userController.update)
+  .delete(jwtAuth.verify, userAuth.delete, userController.delete);
 
 module.exports = router;

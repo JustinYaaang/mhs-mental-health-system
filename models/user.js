@@ -43,7 +43,7 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.pre('findOneAndUpdate', function(next) {
   var salt = bcrypt.genSaltSync(saltRounds);
-  this.password = bcrypt.hashSync(this.password, salt);
+  this._update.password = bcrypt.hashSync(this._update.password, salt);
   next();
 });
 
