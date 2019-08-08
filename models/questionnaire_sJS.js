@@ -24,7 +24,7 @@ var Questionnaire_sJS = new Schema({
     required: true
   },
   body: {
-    type: 'String',
+    type: Schema.Types.Mixed,
     required: true
   },
   rules: {
