@@ -12,8 +12,7 @@ var PatientAnswerSchema = new Schema({
       required: true
     },
     score: {
-      type: 'Number',
-      required: true
+      type: 'Number'
     },
     body: {
       type: Schema.Types.Mixed,
