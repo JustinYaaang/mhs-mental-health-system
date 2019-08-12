@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var mongoose = require('../../config/mongoose');
  
 var PatientAnswerModel = require('../../models/patientanswer')
  
@@ -27,15 +26,6 @@ describe('patientanswers', function() {
  
         model.validate(function(err) {
             expect(err.errors.title).to.exist;
-            done();
-        });
-    });
-
-    it('should be invalid if score is empty', function(done) {
-        var model = new PatientAnswerModel();
- 
-        model.validate(function(err) {
-            expect(err.errors.score).to.exist;
             done();
         });
     });
