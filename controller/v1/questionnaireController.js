@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 
 // Handle create contact actions
 // post: api/Questionnaires
-exports.new = function(req, res) {
+exports.new = function(req, res, next) {
   var models = new QuestionnaireModel(req.body);
   models.save(function(err) {
     if (err)
