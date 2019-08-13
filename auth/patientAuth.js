@@ -32,13 +32,16 @@ exports.index = async (req, res, next) => {
     role = roles;
   });
 
-  if (role[0] == "PATIENT") {
+  if (role[0] == "STEP2" || role[0] == "STEP3" || role[0] == "SERVICEMANAGER") {
     req.query = {
       _id: {
         $in: result
       }
     };
   } else {
+    res.status(401).send({
+      message: 'Not Allow!',
+    });
   }
   console.log(req.query, " <= patientAuth");
 
