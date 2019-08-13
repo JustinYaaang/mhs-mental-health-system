@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: mentalhs-deployment 
+spec: 
+  selector: 
+    matchLabels: 
+      app: mentalhs 
+  replicas: 5 # tells deployment to run 2 pods matching the template 
+  template:
+    metadata: 
+      labels: 
+        app: mentalhs 
+    spec: 
+      containers: 
+      - name: mentalhs 
+        image: buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
+        ports: 
+        - containerPort: 80 
+--- 
+kind: Service 
+apiVersion: v1 
+metadata: 
+  name: mentalhs-service 
+spec: 
+  selector: 
+    app: mentalhs 
+  ports: 
+  - protocol: TCP 
+    port: 80 
+    targetPort: 80 
+  type: LoadBalancer 
