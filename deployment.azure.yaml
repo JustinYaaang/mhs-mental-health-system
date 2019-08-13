@@ -14,7 +14,7 @@ spec:
     spec: 
       containers: 
       - name: mhstriage 
-        image: buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
+        image: mhstriage.azurecr.io/buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
         ports: 
         - containerPort: 80 
 --- 
