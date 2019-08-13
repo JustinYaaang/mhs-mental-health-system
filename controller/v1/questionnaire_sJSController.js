@@ -61,6 +61,7 @@ exports.updatewithstatus = function (req, res) {
     } else {
       doc.status = req.params.status;
       doc.save(function (err, models) {
+        console.log("here")
         res.status(200).send({
           message: 'Questionnaire Info updated',
           data: models
