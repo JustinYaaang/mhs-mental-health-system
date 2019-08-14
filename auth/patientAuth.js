@@ -52,16 +52,6 @@ exports.new = async (req, res, next) => {
   next();
 }
 
-exports.add = async (req, res) => {
-  var enforcer = await require('../config/casbin');
-  await enforcer.addNamedGroupingPolicy("g", String(req.models._id), 'PATIENT');
-  await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), 'PATIENT');
-  await enforcer.addPolicy(String(req.models._id), "patients", String(req.models._id), "(GET)|(PUT)")
-  res.status(200).send({
-    message: 'check email successfully',
-  });
-}
-
 exports.view = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
