@@ -18,7 +18,7 @@ spec:
         imagePullPolicy: Always
         image: mhstriage.azurecr.io/buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
         ports: 
-        - containerPort: 80 
+        - containerPort: 3000 
 --- 
 kind: Service 
 apiVersion: v1 
