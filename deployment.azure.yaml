@@ -14,7 +14,6 @@ spec:
     spec: 
       containers: 
       - name: mhstriage 
-        command: ["/bin/sh", "-ec", "sleep 1000"]
         imagePullPolicy: Always
         image: mhstriage.azurecr.io/buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
         ports: 
