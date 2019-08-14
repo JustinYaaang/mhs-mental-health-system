@@ -14,7 +14,7 @@ spec:
     spec: 
       containers: 
       - name: mhstriage 
-        command: ["/bin/sh", "-ec", "sleep 1000"]
+        command: ["/bin/sh", "-ec", "sleep 1000", "npm start"]
         imagePullPolicy: Always
         image: mhstriage.azurecr.io/buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
         ports: 
@@ -29,6 +29,6 @@ spec:
     app: mhstriage 
   ports: 
   - protocol: TCP 
-    port: 3000 
+    port: 80 
     targetPort: 3000 
   type: LoadBalancer 
