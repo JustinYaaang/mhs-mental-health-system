@@ -1,5 +1,5 @@
 var path = require('path');
-var mongoDB_URI = require('../config/config')
+var mongoDB_URI = require('../env/database')
 var casbin = require('casbin');
 var MongooseAdapter = require('@elastic.io/casbin-mongoose-adapter');
 
