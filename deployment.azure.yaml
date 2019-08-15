@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: mhstriage-deployment 
+spec: 
+  selector: 
+    matchLabels: 
+      app: mhstriage 
+  replicas: 2 # tells deployment to run 2 pods matching the template 
+  template:
+    metadata: 
+      labels: 
+        app: mhstriage 
+    spec: 
+      containers: 
+      - name: mhstriage 
+        imagePullPolicy: Always
+        image: mhstriage.azurecr.io/buseolafusca/mhs-mental-health-system-backend:#{Build.BuildId}#
+        ports: 
+        - containerPort: 3000 
+--- 
+kind: Service 
+apiVersion: v1 
+metadata: 
+  name: mhstriage-service 
+spec: 
+  selector: 
+    app: mhstriage 
+  ports: 
+  - protocol: TCP 
+    port: 80 
+    targetPort: 3000 
+  type: LoadBalancer 
