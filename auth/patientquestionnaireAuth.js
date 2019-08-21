@@ -1,3 +1,6 @@
+var PatientModel = require('../models/patient')
+var sendMessage = require('../config/sendMessage');
+
 exports.index = async (req, res, next) => {
   var enforcer = await require('../config/casbin');
   var subjects = await enforcer.getAllSubjects();
@@ -36,7 +39,12 @@ exports.add = async (req, res) => {
   var enforcer = await require('../config/casbin');
   await enforcer.addNamedGroupingPolicy("g2", String(req.models._id), 'FORM2');
   await enforcer.addPolicy(String(req.models._id), "patientquestionnaire", String(req.models._id), "(GET)")
-  await enforcer.addPolicy(String(req.models.patient_id), "patientquestionnaire", String(req.models.questionnaire_id), "(GET)")
+  await enforcer.addPolicy(String(req.models.patient_id), "questionnaires", String(req.models.questionnaire_id), "(GET)")
+  PatientModel.findOne({_id: req.models.patient_id}).exec(function(err, models) {
+    if (err)
+      res.status(404).send(err);
+    sendMessage.sendSms(models.telephone, req.body.text);
+  });
   res.status(200).send({
     message: 'Added',
   });

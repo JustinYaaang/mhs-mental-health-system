@@ -1,6 +1,6 @@
 //Set up default mongoose connection
 var mongoose = require('mongoose');
-var mongoDB_URI = require('./config')
+var mongoDB_URI = require('../env/database')
 
 mongoose.connect(mongoDB_URI, { useNewUrlParser: true });
 
