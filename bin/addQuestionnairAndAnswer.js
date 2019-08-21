@@ -79,29 +79,29 @@ async function create() {
     await add_question(q3)
   });
 
-  answers.a1.patient_id = p1._id;
-  var a1 = new PatientAnswerModel(answers.a1);
-  a1.save(async (err) => {
-    if (err)
-      console.log(err);
-    await add_answer(a1)
-  });
-
-  answers.a2.patient_id = p1._id;
-  var a2 = new PatientAnswerModel(answers.a2);
-  a2.save(async (err) => {
-    if (err)
-      console.log(err);
-    await add_answer(a2)
-  });
-
-  answers.a3.patient_id = p2._id;
-  var a3 = new PatientAnswerModel(answers.a3);
-  a3.save(async (err) => {
-    if (err)
-      console.log(err);
-    await add_answer(a3)
-  });
+  // answers.a1.patient_id = p1._id;
+  // var a1 = new PatientAnswerModel(answers.a1);
+  // a1.save(async (err) => {
+  //   if (err)
+  //     console.log(err);
+  //   await add_answer(a1)
+  // });
+  //
+  // answers.a2.patient_id = p1._id;
+  // var a2 = new PatientAnswerModel(answers.a2);
+  // a2.save(async (err) => {
+  //   if (err)
+  //     console.log(err);
+  //   await add_answer(a2)
+  // });
+  //
+  // answers.a3.patient_id = p2._id;
+  // var a3 = new PatientAnswerModel(answers.a3);
+  // a3.save(async (err) => {
+  //   if (err)
+  //     console.log(err);
+  //   await add_answer(a3)
+  // });
 
 }
 
