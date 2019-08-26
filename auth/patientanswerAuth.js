@@ -28,6 +28,7 @@ exports.index = async (req, res, next) => {
     var model = await UserModel.findOne({
       _id: req.jwt.id
     });
+    console.log(model.organisation_id);
     req.newquery = {
       $and: [{
         _id: {
@@ -37,10 +38,6 @@ exports.index = async (req, res, next) => {
         service_id: {
           $in: [mongoose.Types.ObjectId(model.organisation_id)]
         }
-      }, {
-        score: {
-          $lt: 7
-        },
       }]
     };
   } else if (role[0] == "STEP3") {
@@ -57,10 +54,6 @@ exports.index = async (req, res, next) => {
         service_id: {
           $in: [mongoose.Types.ObjectId(model.organisation_id)]
         }
-      }, {
-        score: {
-          $gt: 7
-        },
       }]
     };
   } else if (role[0] == "SERVICEMANAGER") {

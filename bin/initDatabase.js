@@ -1,6 +1,6 @@
 async function initDB() {
   var mongoose = require('../config/mongoose');
-  mongoose.connection.dropCollection('casbin_rule', (err, result) => {});
+  // mongoose.connection.dropCollection('casbin_rule', (err, result) => {});
 
   var enforcer = await require('../config/casbin');
 
