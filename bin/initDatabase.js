@@ -1,6 +1,6 @@
 async function initDB() {
   var mongoose = require('../config/mongoose');
-  mongoose.connection.dropCollection('casbin_rule', (err, result) => {});
+  // mongoose.connection.dropCollection('casbin_rule', (err, result) => {});
 
   var enforcer = await require('../config/casbin');
 
@@ -30,16 +30,16 @@ async function initDB() {
   await enforcer.addPolicy("SERVICEMANAGER", "users", "STEP2", "(GET)|(POST)|(PUT)|(DELETE)");
   await enforcer.addPolicy("SERVICEMANAGER", "users", "STEP3", "(GET)|(POST)|(PUT)|(DELETE)");
   await enforcer.addPolicy("SERVICEMANAGER", "questionnaires", "QUESTIONNAIRE", "(GET)");
-  await enforcer.addPolicy("SERVICEMANAGER", "patientanswers", "FORM1ANSWER", "(GET)");
+  await enforcer.addPolicy("SERVICEMANAGER", "patientanswers", "FORM1ANSWER", "(GET)|(PUT)");
   await enforcer.addPolicy("SERVICEMANAGER", "patients", "PATIENT", "(GET)");
   await enforcer.addPolicy("SERVICEMANAGER", "patientquestionnaire", "FORM2", "(GET)|(POST)|(PUT)|(DELETE)");
 
   await enforcer.addPolicy("STEP2", "questionnaires", "QUESTIONNAIRE", "(GET)");
-  await enforcer.addPolicy("STEP2", "patientanswers", "FORM2ANSWER", "(GET)");
+  await enforcer.addPolicy("STEP2", "patientanswers", "FORM2ANSWER", "(GET)|(PUT)");
   await enforcer.addPolicy("STEP2", "patients", "PATIENT", "(GET)");
 
   await enforcer.addPolicy("STEP3", "questionnaires", "QUESTIONNAIRE", "(GET)");
-  await enforcer.addPolicy("STEP3", "patientanswers", "FORM2ANSWER", "(GET)");
+  await enforcer.addPolicy("STEP3", "patientanswers", "FORM2ANSWER", "(GET)|(PUT)");
   await enforcer.addPolicy("STEP3", "patients", "PATIENT", "(GET)");
 
   // patients

@@ -22,7 +22,7 @@ exports.index = async (req, res, next) => {
   });
 
   if (role[0] == "PATIENT") {
-    req.query = {
+    req.newquery = {
       $and: [{
           _id: {
             $in: result
@@ -34,13 +34,17 @@ exports.index = async (req, res, next) => {
       ]
     };
   } else {
-    req.query = {
-      _id: {
-        $in: result
-      }
+    req.newquery = {
+      $and: [{
+          _id: {
+            $in: result
+          }
+        }
+      ]
     };
   }
-  console.log(req.query, " <= questionnaireAuth");
+  req.newquery.$and.push(req.query);
+  console.log(req.newquery, " <= questionnaireAuth");
 
   next();
 }

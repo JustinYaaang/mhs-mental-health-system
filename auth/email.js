@@ -1,4 +1,4 @@
-var sendEmail = require('../util/sendEmail');
+var sendEmail = require('../config/sendEmail');
 
 exports.register = function(req, res) {
   var mail = {

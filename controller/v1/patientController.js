@@ -1,6 +1,8 @@
 var PatientModel = require('../../models/patient')
-var sendEmail = require('../../util/sendEmail');
+var sendEmail = require('../../config/sendEmail');
+var sendMessage = require('../../config/sendMessage');
 var bcrypt = require('bcryptjs');
+
 
 exports.authenticate = function(req, res, next) {
   PatientModel.findOne({
@@ -31,24 +33,30 @@ exports.authenticate = function(req, res, next) {
   });
 }
 
-exports.register = function(req, res, next) {
+exports.register = function(req, res) {
   var models = new PatientModel(req.body);
   models.save(function(err) {
     if (err)
       res.status(404).send(err);
     req.models = models;
-    next();
+    res.status(200).send({
+      message: "Patient created successfully",
+      data: models
+    });
   });
 }
 
-exports.checkemail = function(req, res, next) {
+exports.checkemail = function(req, res) {
   PatientModel.findOneAndUpdate(req.query, {
     is_live: true
   }).exec(function(err, models) {
     if (err)
       res.status(404).send(err);
     req.models = models;
-    next();
+    res.status(200).send({
+      message: "email checked",
+      data: models
+    });
   });
 
 }

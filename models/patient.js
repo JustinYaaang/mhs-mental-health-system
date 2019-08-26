@@ -2,6 +2,7 @@ var mongoose = require('../config/mongoose');
 var bcrypt = require('bcryptjs');
 var saltRounds = 10;
 var uuidv1 = require('uuid/v1');
+var postSave = require('./post-save/patient');
 
 var Schema = mongoose.Schema;
 
@@ -62,6 +63,10 @@ PatientSchema.pre('findOneAndUpdate', function(next) {
   var salt = bcrypt.genSaltSync(saltRounds);
   this._update.password = bcrypt.hashSync(this._update.password, salt);
   next();
+});
+
+PatientSchema.post('save', function(doc) {
+  postSave.addGroupingPolicy(doc)
 });
 
 var PatientModel = mongoose.model('PatientModel', PatientSchema, 'patients');
