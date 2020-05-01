@@ -1,0 +1,22 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - casbin > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
+    - twilio > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
+    - '@elastic.io/casbin-mongoose-adapter > casbin > lodash':
+        patched: '2020-05-01T00:15:41.907Z'
+    - mongoose > async > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
+    - sinon > @sinonjs/samsam > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
+    - '@elastic.io/casbin-mongoose-adapter > mongoose > async > lodash':
+        patched: '2020-05-01T00:15:41.907Z'
+    - sinon > @sinonjs/formatio > @sinonjs/samsam > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
+    - sinon > nise > @sinonjs/formatio > @sinonjs/samsam > lodash:
+        patched: '2020-05-01T00:15:41.907Z'
