@@ -20,14 +20,14 @@
     "express-async-handler": "^1.1.4",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.6.0",
     "morgan": "~1.9.1",
     "nodemailer": "^6.3.0",
-    "nodemon": "^1.19.1",
+    "nodemon": "^2.0.17",
     "sinon": "^7.4.1",
     "sinon-mongoose": "^2.3.0",
-    "twilio": "^3.33.3",
+    "twilio": "^4.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
